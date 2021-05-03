@@ -2,6 +2,7 @@ import 'package:handicraft/sellerhome.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:handicraft/customerhome.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Register extends StatefulWidget {
   final String name;
@@ -15,6 +16,7 @@ class Register extends StatefulWidget {
 class _RegisterState extends State<Register> {
   String _number;
   String _role="customer";
+  SharedPreferences sharedPreferences;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,6 +74,8 @@ class _RegisterState extends State<Register> {
                   "phone":_number,
                   "type":_role
                 }).whenComplete((){
+                  sharedPreferences.setString("type", _role);
+                  sharedPreferences.setString("mail", widget.email);
                   if(_role=='seller'){
                     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>SellerHome()));
                   }

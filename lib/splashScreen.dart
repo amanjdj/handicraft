@@ -1,12 +1,12 @@
 import 'dart:async';
+import '';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:handicraft/login.dart';
 import 'package:handicraft/sellerhome.dart';
-import 'package:handicraft/pages/customerhome.dart';
-import 'package:handicraft/sidebar/sidebar_layout.dart';
+import 'package:handicraft/customerhome.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -17,7 +17,7 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   GoogleSignIn _googleSignIn=GoogleSignIn(scopes: ['email']);
   String type;
-  // SharedPreferences sharedPreferences;
+  SharedPreferences sharedPreferences;
 
   @override
   void initState() {
@@ -25,28 +25,24 @@ class _SplashScreenState extends State<SplashScreen> {
     displaySplash();
   }
   void displaySplash()async{
-    // print(sharedPreferences.getString("type"));
-    // print(sharedPreferences.getString("email"));
+    sharedPreferences ??= await SharedPreferences.getInstance();
+    print(sharedPreferences.getString("type"));
+    print(sharedPreferences.getString("email"));
     Timer(Duration(seconds: 5),()async{
       if(await _googleSignIn.isSignedIn()){
-        // print(_googleSignIn.currentUser.displayName);
-        // sharedPreferences ??= await SharedPreferences.getInstance();
-        String type=await App.sharedPreferences.getString("type");
+        String type=await sharedPreferences.getString("type");
         if(type=='seller'){
           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>(SellerHome())));
         }
         else if(type=='customer'){
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>(SidebarLayout())));
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>(CustomerHome())));
         }
         else{
-          await _googleSignIn.signOut();
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>(Login())));
           print("something wrong");
         }
       }
       else{
-
-        await Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>(Login())));
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>(Login())));
         print("user null");
         print(type);
       }
@@ -84,8 +80,4 @@ class _SplashScreenState extends State<SplashScreen> {
       ),
     );
   }
-}
-
-class App{
-  static SharedPreferences sharedPreferences;
 }
