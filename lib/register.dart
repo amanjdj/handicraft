@@ -84,7 +84,7 @@ class _RegisterState extends State<Register>with TickerProviderStateMixin {
                                 width: width*0.3,
                                 decoration: BoxDecoration(
                                     color: Colors.white,
-                                    border: Border.all(color: _role=='seller'?Color(0xff2c98f0):Colors.white,width: 4),
+                                    border: Border.all(color: _role=='seller'?Color(0xff2c98f0):Colors.black38,width: _role=='seller'?4:1),
                                     borderRadius: BorderRadius.only(topLeft:Radius.circular(20),bottomLeft: Radius.circular(20))
                                 ),
                               child: Center(
@@ -111,7 +111,7 @@ class _RegisterState extends State<Register>with TickerProviderStateMixin {
                                 width: width*0.3,
                                 decoration: BoxDecoration(
                                     color: Colors.white,
-                                    border: Border.all(color: _role=='customer'?Color(0xff2c98f0):Colors.white,width: 4),
+                                    border: Border.all(color: _role=='customer'?Color(0xff2c98f0):Colors.black38,width: _role=='customer'?4:1),
                                     borderRadius: BorderRadius.only(topRight: Radius.circular(20),bottomRight: Radius.circular(20))
                                 ),
                               child: Center(
