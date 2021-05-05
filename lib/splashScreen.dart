@@ -1,5 +1,4 @@
 import 'dart:async';
-import '';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -25,11 +24,11 @@ class _SplashScreenState extends State<SplashScreen> {
     displaySplash();
   }
   void displaySplash()async{
-    sharedPreferences ??= await SharedPreferences.getInstance();
-    print(sharedPreferences.getString("type"));
-    print(sharedPreferences.getString("email"));
+    // print(sharedPreferences.getString("type"));
+    // print(sharedPreferences.getString("email"));
     Timer(Duration(seconds: 5),()async{
       if(await _googleSignIn.isSignedIn()){
+        sharedPreferences ??= await SharedPreferences.getInstance();
         String type=await sharedPreferences.getString("type");
         if(type=='seller'){
           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>(SellerHome())));
@@ -38,11 +37,14 @@ class _SplashScreenState extends State<SplashScreen> {
           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>(CustomerHome())));
         }
         else{
+          await _googleSignIn.signOut();
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>(Login())));
           print("something wrong");
         }
       }
       else{
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>(Login())));
+
+        await Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>(Login())));
         print("user null");
         print(type);
       }

@@ -24,6 +24,7 @@ class _RegisterState extends State<Register>with TickerProviderStateMixin {
   String _role="customer";
   SharedPreferences sharedPreferences;
   GoogleSignIn _googleSignIn=GoogleSignIn(scopes: ['email']);
+
   @override
   Widget build(BuildContext context) {
     double width=MediaQuery.of(context).size.width;
@@ -170,9 +171,10 @@ class _RegisterState extends State<Register>with TickerProviderStateMixin {
                                 "email":widget.email,
                                 "phone":_number,
                                 "type":_role
-                              }).whenComplete((){
-                                sharedPreferences.setString("type", _role);
-                                sharedPreferences.setString("mail", widget.email);
+                              }).whenComplete(()async{
+                                sharedPreferences ??= await SharedPreferences.getInstance();
+                                await sharedPreferences.setString("type", _role);
+                                await sharedPreferences.setString("mail", widget.email);
                                 if(_role=='seller'){
                                   Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>SellerHome()));
                                 }

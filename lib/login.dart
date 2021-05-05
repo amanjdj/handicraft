@@ -15,7 +15,7 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> with TickerProviderStateMixin {
-  FirebaseAuth _auth = FirebaseAuth.instance;
+  // FirebaseAuth _auth = FirebaseAuth.instance;
   GoogleSignIn _googleSignIn = GoogleSignIn();
   String type;
   SharedPreferences sharedPreferences;
@@ -66,7 +66,9 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                        });
                      }
                      else if(data.docs.isEmpty){
-                       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Register(name: _googleSignIn.currentUser.displayName,imageUrl: _googleSignIn.currentUser.photoUrl,email: _googleSignIn.currentUser.email,)));
+                       sharedPreferences ??= await SharedPreferences.getInstance();
+                       await sharedPreferences.setString("type", "null");
+                       await Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Register(name: _googleSignIn.currentUser.displayName,imageUrl: _googleSignIn.currentUser.photoUrl,email: _googleSignIn.currentUser.email,)));
                        print("empty");
                      }
                    });//google sign
