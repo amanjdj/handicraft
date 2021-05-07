@@ -1,13 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:handicraft/customerhome.dart';
+import 'package:handicraft/pages/customerhome.dart';
 import 'package:handicraft/home.dart';
 import 'package:handicraft/register.dart';
 import 'package:handicraft/sellerhome.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:handicraft/sidebar/sidebar_layout.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:animated_background/animated_background.dart';
+import 'package:handicraft/splashScreen.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -18,7 +20,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
   // FirebaseAuth _auth = FirebaseAuth.instance;
   GoogleSignIn _googleSignIn = GoogleSignIn();
   String type;
-  SharedPreferences sharedPreferences;
+  // SharedPreferences sharedPreferences;
   @override
   Widget build(BuildContext context) {
     double width=MediaQuery.of(context).size.width;
@@ -54,20 +56,23 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                      if(data.docs.isNotEmpty){
                        data.docs.forEach((element) async {
                          type=element.data()["type"];
-                         sharedPreferences ??= await SharedPreferences.getInstance();
-                         await sharedPreferences.setString("type", type);
-                         await sharedPreferences.setString("email", _googleSignIn.currentUser.email);
+                         // sharedPreferences ??= await SharedPreferences.getInstance();
+                         await App.sharedPreferences.setString("type", type);
+                         await App.sharedPreferences.setString("email", _googleSignIn.currentUser.email);
+                         await App.sharedPreferences.setString("url", _googleSignIn.currentUser.photoUrl);
+                         await App.sharedPreferences.setString("name", _googleSignIn.currentUser.displayName);
+
                          if(type=="seller"){
                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>SellerHome()));
                          }
                          else if(type=="customer"){
-                           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>CustomerHome()));
+                           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>SidebarLayout()));
                          }
                        });
                      }
                      else if(data.docs.isEmpty){
-                       sharedPreferences ??= await SharedPreferences.getInstance();
-                       await sharedPreferences.setString("type", "null");
+                       // sharedPreferences ??= await SharedPreferences.getInstance();
+                       await App.sharedPreferences.setString("type", "null");
                        await Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Register(name: _googleSignIn.currentUser.displayName,imageUrl: _googleSignIn.currentUser.photoUrl,email: _googleSignIn.currentUser.email,)));
                        print("empty");
                      }

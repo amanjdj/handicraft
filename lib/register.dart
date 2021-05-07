@@ -5,10 +5,12 @@ import 'package:handicraft/login.dart';
 import 'package:handicraft/sellerhome.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:handicraft/customerhome.dart';
+import 'package:handicraft/pages/customerhome.dart';
+import 'package:handicraft/sidebar/sidebar_layout.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:flutter_button/flutter_button.dart';
+import 'package:handicraft/splashScreen.dart';
 
 class Register extends StatefulWidget {
   final String name;
@@ -22,7 +24,7 @@ class Register extends StatefulWidget {
 class _RegisterState extends State<Register>with TickerProviderStateMixin {
   String _number;
   String _role="customer";
-  SharedPreferences sharedPreferences;
+  // SharedPreferences sharedPreferences;
   GoogleSignIn _googleSignIn=GoogleSignIn(scopes: ['email']);
 
   @override
@@ -172,14 +174,16 @@ class _RegisterState extends State<Register>with TickerProviderStateMixin {
                                 "phone":_number,
                                 "type":_role
                               }).whenComplete(()async{
-                                sharedPreferences ??= await SharedPreferences.getInstance();
-                                await sharedPreferences.setString("type", _role);
-                                await sharedPreferences.setString("mail", widget.email);
+                                // sharedPreferences ??= await SharedPreferences.getInstance();
+                                await App.sharedPreferences.setString("type", _role);
+                                await App.sharedPreferences.setString("mail", widget.email);
+                                await App.sharedPreferences.setString("url", _googleSignIn.currentUser.photoUrl);
+                                await App.sharedPreferences.setString("name", _googleSignIn.currentUser.displayName);
                                 if(_role=='seller'){
                                   Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>SellerHome()));
                                 }
                                 else{
-                                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>CustomerHome()));
+                                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>SidebarLayout()));
                                 }
                               });
                             }
