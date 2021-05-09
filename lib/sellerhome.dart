@@ -5,7 +5,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:animated_background/animated_background.dart';
 import 'package:handicraft/sellerhomewidgets.dart';
-import 'package:handicraft/dummy.dart';
+
 class SellerHome extends StatefulWidget {
   @override
   _SellerHomeState createState() => _SellerHomeState();
