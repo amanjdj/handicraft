@@ -35,7 +35,11 @@ dependencies:
   firebase_auth: ^1.1.2
   animated_background: ^1.0.5
   flutter_custom_clippers: ^1.1.2
-  flutter_button: ^0.0.4
+  curved_navigation_bar: ^0.3.7
+  string_validator: ^0.3.0
+  image_picker: ^0.7.4
+  font_awesome_flutter: ^9.0.0
+  firebase_storage: ^8.0.5
 
 dev_dependencies:
   flutter_test:
