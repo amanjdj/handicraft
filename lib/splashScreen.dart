@@ -16,7 +16,7 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   GoogleSignIn _googleSignIn=GoogleSignIn(scopes: ['email']);
   String type;
-  SharedPreferences sharedPreferences;
+  // SharedPreferences sharedPreferences;
 
   @override
   void initState() {
@@ -28,8 +28,8 @@ class _SplashScreenState extends State<SplashScreen> {
     // print(sharedPreferences.getString("email"));
     Timer(Duration(seconds: 5),()async{
       if(await _googleSignIn.isSignedIn()){
-        sharedPreferences ??= await SharedPreferences.getInstance();
-        String type=await sharedPreferences.getString("type");
+        // sharedPreferences ??= await SharedPreferences.getInstance();
+        String type=await App.sharedPreferences.getString("type");
         if(type=='seller'){
           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>(SellerHome())));
         }
@@ -83,3 +83,11 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 }
+
+
+
+class App{
+  static SharedPreferences sharedPreferences;
+}
+
+
