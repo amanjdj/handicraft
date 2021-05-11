@@ -34,9 +34,6 @@ class _SidebarState extends State<Sidebar> with SingleTickerProviderStateMixin<S
   // IconData sidebarIcon = FontAwesomeIcons.angleDoubleRight;
   // SharedPreferences sharedPreferences;
   final _animationDuration = const Duration(microseconds: 500);
-  // String username;
-  // String useremail;
-  // String userurl;
 
   @override
   void initState() {

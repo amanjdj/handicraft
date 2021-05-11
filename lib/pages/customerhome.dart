@@ -1,5 +1,4 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:handicraft/data/data.dart';
 import 'package:handicraft/login.dart';
@@ -70,8 +69,8 @@ class _CustomerHomeState extends State<CustomerHome> {
         ),
         Container(
           margin: EdgeInsets.only(
-              top: 25,
-              bottom: 25,
+            top: 25,
+            bottom: 25,
           ),
           height: 24,
           child: Stack(

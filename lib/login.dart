@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:handicraft/customerhome.dart';
+import 'package:handicraft/pages/customerhome.dart';
 import 'package:handicraft/home.dart';
 import 'package:handicraft/register.dart';
 import 'package:handicraft/sellerhome.dart';

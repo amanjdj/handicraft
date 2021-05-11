@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:handicraft/login.dart';
 import 'package:handicraft/sellerhome.dart';
-import 'package:handicraft/customerhome.dart';
+import 'package:handicraft/pages/customerhome.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -16,7 +16,6 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   GoogleSignIn _googleSignIn=GoogleSignIn(scopes: ['email']);
   String type;
-  // SharedPreferences sharedPreferences;
 
   @override
   void initState() {
@@ -24,11 +23,8 @@ class _SplashScreenState extends State<SplashScreen> {
     displaySplash();
   }
   void displaySplash()async{
-    // print(sharedPreferences.getString("type"));
-    // print(sharedPreferences.getString("email"));
     Timer(Duration(seconds: 5),()async{
       if(await _googleSignIn.isSignedIn()){
-        // sharedPreferences ??= await SharedPreferences.getInstance();
         String type=await App.sharedPreferences.getString("type");
         if(type=='seller'){
           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>(SellerHome())));
@@ -43,7 +39,6 @@ class _SplashScreenState extends State<SplashScreen> {
         }
       }
       else{
-
         await Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>(Login())));
         print("user null");
         print(type);
@@ -68,7 +63,7 @@ class _SplashScreenState extends State<SplashScreen> {
             ),
           ),
           Container(
-            child: Center(child: Text("Handicraft",style: TextStyle(fontSize: height*0.08,fontFamily: "Pacifico"),)),
+            child: Center(child: Text("Handicraft",style: TextStyle(fontSize: height*0.05,fontFamily: "Pacifico"),)),
             decoration: BoxDecoration(
                    color: Colors.white54,
               borderRadius: BorderRadius.circular(10)
