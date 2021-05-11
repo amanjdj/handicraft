@@ -58,6 +58,8 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                          // sharedPreferences ??= await SharedPreferences.getInstance();
                          await App.sharedPreferences.setString("type", type);
                          await App.sharedPreferences.setString("email", _googleSignIn.currentUser.email);
+                         await App.sharedPreferences.setString("url", _googleSignIn.currentUser.photoUrl);
+                         await App.sharedPreferences.setString("name", _googleSignIn.currentUser.displayName);
                          if(type=="seller"){
                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>SellerHome()));
                          }

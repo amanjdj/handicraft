@@ -170,6 +170,8 @@ class _RegisterState extends State<Register>with TickerProviderStateMixin {
                                   // sharedPreferences ??= await SharedPreferences.getInstance();
                                   await App.sharedPreferences.setString("type", _role);
                                   await App.sharedPreferences.setString("email", widget.email);
+                                  await App.sharedPreferences.setString("url", _googleSignIn.currentUser.photoUrl);
+                                  await App.sharedPreferences.setString("name", _googleSignIn.currentUser.displayName);
                                   if(_role=='seller'){
                                     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>SellerHome()));
                                   }

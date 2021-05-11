@@ -3,7 +3,6 @@ import 'package:handicraft/splashScreen.dart';
 
 class OrdersArrived extends StatelessWidget {
   const OrdersArrived({Key key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
