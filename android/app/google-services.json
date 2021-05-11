@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "605508483497",
+    "project_id": "handicraft-89057",
+    "storage_bucket": "handicraft-89057.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:605508483497:android:839b13f4e555f4fe2cacb8",
+        "android_client_info": {
+          "package_name": "com.engineergrid.handicraft"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "605508483497-1podvglltcbrl4kp5uhircfd5pk837lp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.engineergrid.handicraft",
+            "certificate_hash": "7a96a946f0de4c1ebaf5228feebdb7cabe9a82b1"
+          }
+        },
+        {
+          "client_id": "605508483497-inj134qumm9otbruhl0njmp2min1qvc4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDDCvQWH0KUMb6erdB7w8AQqyrbrCxf07k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "605508483497-inj134qumm9otbruhl0njmp2min1qvc4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
