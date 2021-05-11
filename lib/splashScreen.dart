@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:handicraft/login.dart';
 import 'package:handicraft/sellerhome.dart';
-import 'package:handicraft/customerhome.dart';
+import 'package:handicraft/pages/customerhome.dart';
+import 'package:handicraft/sidebar/sidebar_layout.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -28,13 +29,14 @@ class _SplashScreenState extends State<SplashScreen> {
     // print(sharedPreferences.getString("email"));
     Timer(Duration(seconds: 5),()async{
       if(await _googleSignIn.isSignedIn()){
+        // print(_googleSignIn.currentUser.displayName);
         // sharedPreferences ??= await SharedPreferences.getInstance();
         String type=await App.sharedPreferences.getString("type");
         if(type=='seller'){
           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>(SellerHome())));
         }
         else if(type=='customer'){
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>(CustomerHome())));
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>(SidebarLayout())));
         }
         else{
           await _googleSignIn.signOut();
@@ -84,10 +86,6 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 }
 
-
-
 class App{
   static SharedPreferences sharedPreferences;
 }
-
-
