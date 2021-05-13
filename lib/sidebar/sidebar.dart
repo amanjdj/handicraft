@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -43,14 +42,14 @@ class _SidebarState extends State<Sidebar> with SingleTickerProviderStateMixin<S
     super.initState();
     // void pref()async{
     //   sharedPreferences ??= await SharedPreferences.getInstance();
-      // String name=await sharedPreferences.getString("name");
-      // String email = await sharedPreferences.get("email");
-      // String url =await sharedPreferences.get("url");
-      // setState(() {
-      //   username=name;
-      //   username=email;
-      //   username=url;
-      // });
+    // String name=await sharedPreferences.getString("name");
+    // String email = await sharedPreferences.get("email");
+    // String url =await sharedPreferences.get("url");
+    // setState(() {
+    //   username=name;
+    //   username=email;
+    //   username=url;
+    // });
     // }
     // pref();
 
@@ -81,139 +80,139 @@ class _SidebarState extends State<Sidebar> with SingleTickerProviderStateMixin<S
       _animationController.forward();
     }
   }
-  
+
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     return StreamBuilder<bool>(
-      initialData: false,
-      stream: isSidebarOpenedStream,
-      builder: (context, isSideBarOpenedAsync) {
-        return AnimatedPositioned(
-          duration: _animationDuration,
-          top: 0,
-          bottom: 0,
-          left: isSideBarOpenedAsync.data  ? 0: -width,
-          right: isSideBarOpenedAsync.data ? 0 : width-35,
-          child: Row(
-            children: [
-              Expanded(
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 20),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(bottomRight: Radius.circular(0),topRight: Radius.circular(0)),
-                    color: Color(0xff2c98f0),
-                    ),
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: 80,
+        initialData: false,
+        stream: isSidebarOpenedStream,
+        builder: (context, isSideBarOpenedAsync) {
+          return AnimatedPositioned(
+            duration: _animationDuration,
+            top: 0,
+            bottom: 0,
+            left: isSideBarOpenedAsync.data  ? 0: -width,
+            right: isSideBarOpenedAsync.data ? 0 : width-35,
+            child: Row(
+              children: [
+                Expanded(
+                  child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.only(bottomRight: Radius.circular(0),topRight: Radius.circular(0)),
+                        color: Color(0xff2c98f0),
                       ),
-                      ListTile(
-                        title: Text(App.sharedPreferences.getString("name"),style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 30,
-                          fontWeight: FontWeight.w800),
-                        ),
-                        subtitle: Text(App.sharedPreferences.getString("email"),style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,),
-                        ),
-                        leading: CircleAvatar(
-                            radius: 40,
-                            backgroundColor: Colors.transparent,
-                            child: ClipOval(
-                              child: Image.network(App.sharedPreferences.getString("url")),
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: 80,
+                          ),
+                          ListTile(
+                            title: Text(App.sharedPreferences.getString("name"),style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 30,
+                                fontWeight: FontWeight.w800),
+                            ),
+                            subtitle: Text(App.sharedPreferences.getString("email"),style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,),
+                            ),
+                            leading: CircleAvatar(
+                              radius: 40,
+                              backgroundColor: Colors.transparent,
+                              child: ClipOval(
+                                child: Image.network(App.sharedPreferences.getString("url")),
+                              ),
                             ),
                           ),
-                        ),
-                      Divider(
-                        height: 64,
-                        thickness: 0.5,
-                        color: Colors.white.withOpacity(0.5),
-                        indent: 32,
-                        endIndent: 32,
-                      ),
-                      MenuItem(
-                        icon: Icons.home,
-                        title: "Home",
-                        ontap: (){
-                          onIconPressed();
-                          BlocProvider.of<NavigationBloc>(context).add(NavigationEvents.HomePageClickedEvent);
-                        },
-                      ),
-                      MenuItem(
-                        icon: Icons.shopping_bag,
-                        title: "My Orders",
-                        ontap: (){
-                          onIconPressed();
-                          BlocProvider.of<NavigationBloc>(context).add(NavigationEvents.MyOrdersClickedEvent);
-                        },
-                      ),
-                      MenuItem(
-                        icon: Icons.account_balance,
-                        title: "My Accounts",
-                        ontap: (){
-                          onIconPressed();
-                          BlocProvider.of<NavigationBloc>(context).add(NavigationEvents.MyAccountsClickedEvent);
-                        },
-                      ),
-                      Divider(
-                        height: 64,
-                        thickness: 0.5,
-                        color: Colors.white.withOpacity(0.5),
-                        indent: 32,
-                        endIndent: 32,
-                      ),
-                      MenuItem(
-                        icon: Icons.settings,
-                        title: "Settings",
-                      ),
-                      MenuItem(
-                        icon: Icons.exit_to_app,
-                        title: "Log out",
-                        ontap: ()async{
-                          await _googleSignIn.signOut().whenComplete((){
-                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Login()));
-                          });
-                        },
-                      ),
-                    ],
-                  )
+                          Divider(
+                            height: 64,
+                            thickness: 0.5,
+                            color: Colors.white.withOpacity(0.5),
+                            indent: 32,
+                            endIndent: 32,
+                          ),
+                          MenuItem(
+                            icon: Icons.home,
+                            title: "Home",
+                            ontap: (){
+                              onIconPressed();
+                              BlocProvider.of<NavigationBloc>(context).add(NavigationEvents.HomePageClickedEvent);
+                            },
+                          ),
+                          MenuItem(
+                            icon: Icons.shopping_bag,
+                            title: "My Orders",
+                            ontap: (){
+                              onIconPressed();
+                              BlocProvider.of<NavigationBloc>(context).add(NavigationEvents.MyOrdersClickedEvent);
+                            },
+                          ),
+                          MenuItem(
+                            icon: Icons.account_balance,
+                            title: "My Accounts",
+                            ontap: (){
+                              onIconPressed();
+                              BlocProvider.of<NavigationBloc>(context).add(NavigationEvents.MyAccountsClickedEvent);
+                            },
+                          ),
+                          Divider(
+                            height: 64,
+                            thickness: 0.5,
+                            color: Colors.white.withOpacity(0.5),
+                            indent: 32,
+                            endIndent: 32,
+                          ),
+                          MenuItem(
+                            icon: Icons.settings,
+                            title: "Settings",
+                          ),
+                          MenuItem(
+                            icon: Icons.exit_to_app,
+                            title: "Log out",
+                            ontap: ()async{
+                              await _googleSignIn.signOut().whenComplete((){
+                                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Login()));
+                              });
+                            },
+                          ),
+                        ],
+                      )
+                  ),
                 ),
-              ),
-              GestureDetector(
-                onTap: (){
-                  setState(() {
-                    onIconPressed();
-                  });
-                },
-                child: Align(
-                  alignment: Alignment(0, -0.9),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(bottomRight: Radius.circular(30),topRight: Radius.circular(30)),
-                      color: Color(0xff2c98f0),
-                    ),
-                    width: 30,
-                    height: 55,
-                    alignment: Alignment.centerLeft,
-                    child: AnimatedIcon(
-                      progress: _animationController.view,
-                      icon: AnimatedIcons.menu_close,
-                      color: Colors.white,
-                      size: 25,
+                GestureDetector(
+                  onTap: (){
+                    setState(() {
+                      onIconPressed();
+                    });
+                  },
+                  child: Align(
+                    alignment: Alignment(0, -0.9),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.only(bottomRight: Radius.circular(30),topRight: Radius.circular(30)),
+                        color: Color(0xff2c98f0),
+                      ),
+                      width: 30,
+                      height: 55,
+                      alignment: Alignment.centerLeft,
+                      child: AnimatedIcon(
+                        progress: _animationController.view,
+                        icon: AnimatedIcons.menu_close,
+                        color: Colors.white,
+                        size: 25,
+                      ),
                     ),
                   ),
                 ),
-              ),
-              // SizedBox(
-              //   width: 20,
-              // )
-            ],
-          ),
-        );
-      }
+                // SizedBox(
+                //   width: 20,
+                // )
+              ],
+            ),
+          );
+        }
     );
   }
 }

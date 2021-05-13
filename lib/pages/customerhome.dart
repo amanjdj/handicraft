@@ -26,8 +26,9 @@ class _CustomerHomeState extends State<CustomerHome> {
     print(data.docs.length);
     for(int i=0;i<data.docs.length;i++){
       print(data.docs[i].data()['price']);
-      Data model=Data(data.docs[i].data()['title'], data.docs[i].data()['price'],data.docs[i].data()['imageURL'],data.docs[i].data()['desc'], data.docs[i].data()['seller']);
+      Data model=Data(data.docs[i].data()['title'], data.docs[i].data()['price'],data.docs[i].data()['imageURL'],data.docs[i].data()['desc'], data.docs[i].data()['seller'],data.docs[i].id);
       dataList.add(model);
+      print(data.docs[i].id);
     }
     setState(() {
       print("Working");
@@ -65,6 +66,28 @@ class _CustomerHomeState extends State<CustomerHome> {
                   color: Colors.white, fontWeight: FontWeight.bold
               ),
               ),
+              SizedBox(width: 10,),
+              GestureDetector(
+                onTap: (){},
+                child: Container(
+                  margin: EdgeInsets.all(5),
+                  height: 30,
+                  width: 80,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(color: Colors.white,width: 2)
+                  ),
+                  child: Center(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Text("999",style: TextStyle(color: Colors.white,fontSize: 20),),
+                        Icon(Icons.shopping_cart,color: Colors.white,)
+                      ],
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
@@ -96,7 +119,7 @@ class _CustomerHomeState extends State<CustomerHome> {
             child: dataList.length==0? Center(child: Text("Loading...")): ListView.builder(itemCount: dataList.length,scrollDirection: Axis.vertical,
                 itemBuilder:(_,index){
                   return FeaturedProductss(dataList[index].url, dataList[index].title, dataList[index].price,(){
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>(OrdersPages(dataList[index].url, dataList[index].title, dataList[index].price,dataList[index].desc))));
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>(OrdersPages(dataList[index].url, dataList[index].title, dataList[index].price,dataList[index].desc,dataList[index].itemID))));
                   });
                 }
             ),

@@ -40,9 +40,7 @@ class _SellerHomeState extends State<SellerHome> with TickerProviderStateMixin{
         },
         letIndexChange: (index) => true,
       ),
-      body: AnimatedBackground(
-        behaviour: RacingLinesBehaviour(),
-        vsync: this,
+      body: Center(
         child: PageView(
           physics: NeverScrollableScrollPhysics(),
           controller: _pageController,

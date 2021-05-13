@@ -5,9 +5,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:handicraft/sidebar_navigation/navigation_bloc.dart';
 
 class OrdersPages extends StatelessWidget  with NavigationStates{
-  String imageUrl,title,price,desc;
+  String imageUrl,title,price,desc,itemID;
 
-  OrdersPages(this.imageUrl,this.title,this.price,this.desc);
+  OrdersPages(this.imageUrl,this.title,this.price,this.desc,this.itemID);
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +36,7 @@ class OrdersPages extends StatelessWidget  with NavigationStates{
               ),
             ),
             Container(
+              width: 200,
               decoration: BoxDecoration(
                 color: Color(0xff44a7c4),
                 borderRadius: BorderRadius.only(bottomLeft: Radius.circular(36),bottomRight: Radius.circular(36)),
@@ -64,7 +65,8 @@ class OrdersPages extends StatelessWidget  with NavigationStates{
               child: Container(
                 child: Text(desc),
               ),
-            )
+            ),
+            ElevatedButton(onPressed: (){}, child: Text("Add to cart"))
           ],
         ),
       ),
