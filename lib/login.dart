@@ -5,6 +5,7 @@ import 'package:handicraft/register.dart';
 import 'package:handicraft/sellerhome.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:handicraft/sidebar/sidebar_layout.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:animated_background/animated_background.dart';
@@ -16,7 +17,7 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> with TickerProviderStateMixin {
-  FirebaseAuth _auth = FirebaseAuth.instance;
+  // FirebaseAuth _auth = FirebaseAuth.instance;
   GoogleSignIn _googleSignIn = GoogleSignIn();
   String type;
   // SharedPreferences sharedPreferences;
@@ -58,11 +59,14 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                          // sharedPreferences ??= await SharedPreferences.getInstance();
                          await App.sharedPreferences.setString("type", type);
                          await App.sharedPreferences.setString("email", _googleSignIn.currentUser.email);
+                         await App.sharedPreferences.setString("url", _googleSignIn.currentUser.photoUrl);
+                         await App.sharedPreferences.setString("name", _googleSignIn.currentUser.displayName);
+
                          if(type=="seller"){
                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>SellerHome()));
                          }
                          else if(type=="customer"){
-                           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>CustomerHome()));
+                           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>SidebarLayout()));
                          }
                        });
                      }
