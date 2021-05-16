@@ -1,13 +1,16 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:handicraft/sidebar_navigation/navigation_bloc.dart';
+import 'package:handicraft/splashScreen.dart';
 
 class OrdersPages extends StatelessWidget  with NavigationStates{
   String imageUrl,title,price,desc,itemID;
+  List<String> cartList;
 
-  OrdersPages(this.imageUrl,this.title,this.price,this.desc,this.itemID);
+  OrdersPages(this.imageUrl,this.title,this.price,this.desc,this.itemID,this.cartList);
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +69,23 @@ class OrdersPages extends StatelessWidget  with NavigationStates{
                 child: Text(desc),
               ),
             ),
-            ElevatedButton(onPressed: (){}, child: Text("Add to cart"))
+            ElevatedButton(onPressed: (){
+              void addToCart()async{
+                if(cartList.contains(itemID)){
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Item already added")));
+                }
+                else{
+                  cartList.add(itemID);
+                  await FirebaseFirestore.instance.collection("users").doc(App.sharedPreferences.getString("email")).update({
+                    "cart":cartList
+                  }).then((value){
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:Text("Added to cart")));
+                  });
+                }
+
+              }
+              addToCart();
+            }, child: Text("Add to cart"))
           ],
         ),
       ),

@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:handicraft/customerCart.dart';
 import 'package:handicraft/data/data.dart';
 import 'package:handicraft/login.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +9,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:handicraft/pages/myorderspage.dart';
 import 'package:handicraft/sidebar_navigation/navigation_bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:handicraft/splashScreen.dart';
 
 import '../orderpages.dart';
 class CustomerHome extends StatefulWidget with NavigationStates{
@@ -17,10 +19,7 @@ class CustomerHome extends StatefulWidget with NavigationStates{
 
 class _CustomerHomeState extends State<CustomerHome> {
   List<Data> dataList = [];
-
-
   GoogleSignIn _googleSignIn=GoogleSignIn();
-
   void fetchData()async{
     var data=await FirebaseFirestore.instance.collection("Items").get();
     print(data.docs.length);
@@ -34,11 +33,24 @@ class _CustomerHomeState extends State<CustomerHome> {
       print("Working");
     });
   }
+  String cartLength="";
+  List<String> cartList =[];
+  void getCart()async{
+    print("cart acknowledged");
+    var data=await FirebaseFirestore.instance.collection("users").where("email",isEqualTo:App.sharedPreferences.getString("email")).get();
+    setState(() {
+      cartList=List.from(data.docs[0].data()['cart']);
+      cartLength=cartList.length.toString();
+    });
+    // print(data.docs[0].data()['cart']);
+    print(cartList.length.toString() +"cartlength");
+  }
 
   @override
   void initState() {
     super.initState();
-    fetchData();
+    // fetchData();
+    // getCart();
   }
 
   @override
@@ -68,7 +80,9 @@ class _CustomerHomeState extends State<CustomerHome> {
               ),
               SizedBox(width: 10,),
               GestureDetector(
-                onTap: (){},
+                onTap: (){
+                  Navigator.push(context, CupertinoPageRoute(builder: (context)=>CustomerCart(cartCount: cartList,)));
+                },
                 child: Container(
                   margin: EdgeInsets.all(5),
                   height: 30,
@@ -81,7 +95,18 @@ class _CustomerHomeState extends State<CustomerHome> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        Text("999",style: TextStyle(color: Colors.white,fontSize: 20),),
+                        StreamBuilder(stream: FirebaseFirestore.instance.collection("users").where("email",isEqualTo:App.sharedPreferences.getString("email")).snapshots(),
+                        builder: (context,AsyncSnapshot<QuerySnapshot> streamSnapshot){
+                          void getCart()async{
+                            if(streamSnapshot.hasData){
+                              cartList=List.from(streamSnapshot.data.docs[0]['cart']);
+                            }
+                          }
+                          getCart();
+                          return !streamSnapshot.hasData?CircularProgressIndicator():Text(cartList.length.toString(),style: TextStyle(color: Colors.white,fontSize: 20),);
+                        },
+                        ),
+                        // cartLength==null?LinearProgressIndicator():Text(cartLength,style: TextStyle(color: Colors.white,fontSize: 20),),
                         Icon(Icons.shopping_cart,color: Colors.white,)
                       ],
                     ),
@@ -115,24 +140,28 @@ class _CustomerHomeState extends State<CustomerHome> {
           ),
         ),
         Expanded(
-          child: Container(
-            child: dataList.length==0? Center(child: Text("Loading...")): ListView.builder(itemCount: dataList.length,scrollDirection: Axis.vertical,
-                itemBuilder:(_,index){
-                  return FeaturedProductss(dataList[index].url, dataList[index].title, dataList[index].price,(){
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>(OrdersPages(dataList[index].url, dataList[index].title, dataList[index].price,dataList[index].desc,dataList[index].itemID))));
-                  });
-                }
-            ),
-          ),
+          child: StreamBuilder(
+            stream: FirebaseFirestore.instance.collection("Items").snapshots(),
+            builder: (context,AsyncSnapshot<QuerySnapshot> streamSnapshot){
+              return !streamSnapshot.hasData?Center(child: CircularProgressIndicator()):ListView.builder(itemCount: streamSnapshot.data.docs.length,
+                itemBuilder: (_,index){
+                  return FeaturedProductss(streamSnapshot.data.docs[index]['imageURL'],streamSnapshot.data.docs[index]['title'] ,streamSnapshot.data.docs[index]['price'],(){
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>(OrdersPages(streamSnapshot.data.docs[index]['imageURL'], streamSnapshot.data.docs[index]['title'],streamSnapshot.data.docs[index]['price'],streamSnapshot.data.docs[index]['desc'],streamSnapshot.data.docs[index].id,cartList))));
+                  }
+                  );
+                },
+              );
+            },
+          )
         )
       ],
     );
   }
 
-  Widget FeaturedProductss(String imageUrl, String title, String price,Function press) {
+  Widget FeaturedProductss(String imageUrl, String title, String price, Function function) {
     Size size = MediaQuery.of(context).size;
     return GestureDetector(
-      onTap: press,
+      onTap: function,
       child: Container(
         margin: EdgeInsets.all(20),
         width: size.width*0.7,
