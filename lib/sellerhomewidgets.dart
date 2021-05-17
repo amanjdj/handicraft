@@ -11,6 +11,7 @@ import 'package:handicraft/login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../orderpages.dart';
+import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 
 class OrdersArrived extends StatelessWidget {
   const OrdersArrived({Key key}) : super(key: key);
@@ -46,46 +47,53 @@ class _ItemModifyState extends State<ItemModify> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return SafeArea(
-      child: Column(
-        children: [
-          Container(
-            width: size.width,
-            color: Colors.lightBlue,
-            child: Center(
-              child: Text(
-                'Edit',
-                style: GoogleFonts.pattaya(
-                  fontSize: 39,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black54,
-                ),
+      child: Container(
+        color: Colors.white38,
+        child: Column(
+          children: [
+            ClipPath(
+              clipper: OvalBottomBorderClipper(),
+              child: Container(
+                  color: Color(0xff2c98f0),
+                  height: size.height * 0.097,
+                  width: size.width,
+                  child: Center(
+                    child: Text(
+                      "Edit",
+                      style: GoogleFonts.pattaya(
+                        color: Colors.white,
+                        fontSize: 46,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  )),
+            ),
+            Expanded(
+              child: StreamBuilder(
+                stream: FirebaseFirestore.instance
+                    .collection("Items")
+                    .where("seller",
+                        isEqualTo: App.sharedPreferences.getString("email"))
+                    .snapshots(),
+                builder:
+                    (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
+                  return !streamSnapshot.hasData
+                      ? CircularProgressIndicator()
+                      : ListView.builder(
+                          itemCount: streamSnapshot.data.docs.length,
+                          itemBuilder: (_, index) {
+                            return MyUI(
+                                streamSnapshot.data.docs[index]['title'],
+                                streamSnapshot.data.docs[index]['price'],
+                                streamSnapshot.data.docs[index]['imageURL'],
+                                streamSnapshot.data.docs[index].id);
+                          },
+                        );
+                },
               ),
             ),
-          ),
-          Expanded(
-            child: StreamBuilder(
-              stream: FirebaseFirestore.instance
-                  .collection("Items")
-                  .where("seller",
-                      isEqualTo: App.sharedPreferences.getString("email"))
-                  .snapshots(),
-              builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
-                return !streamSnapshot.hasData
-                    ? CircularProgressIndicator()
-                    : ListView.builder(
-                        itemCount: streamSnapshot.data.docs.length,
-                        itemBuilder: (_, index) {
-                          return MyUI(
-                              streamSnapshot.data.docs[index]['title'],
-                              streamSnapshot.data.docs[index]['price'],
-                              streamSnapshot.data.docs[index]['imageURL'],
-                              streamSnapshot.data.docs[index].id);
-                        },
-                      );
-              },
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -95,83 +103,89 @@ class _ItemModifyState extends State<ItemModify> {
     final _price = TextEditingController();
     String desc = price;
     return Card(
-      child: Container(
-        color: Colors.teal.shade50,
-        child: Column(
-          children: [
-            CachedNetworkImage(
-              imageUrl: url,
-              imageBuilder: (context, imageProvider) => Container(
-                height: size.height * 0.3,
-                width: size.width,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: imageProvider,
-                    fit: BoxFit.cover,
+      margin: EdgeInsets.only(top: 10.0, bottom: 10.0, left: 3.4, right: 3.4),
+      child: Padding(
+        padding: const EdgeInsets.all(5.0),
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.teal.shade50,
+            borderRadius: BorderRadius.all(Radius.circular(20.0)),
+          ),
+          child: Column(
+            children: [
+              CachedNetworkImage(
+                imageUrl: url,
+                imageBuilder: (context, imageProvider) => Container(
+                  height: size.height * 0.3,
+                  width: size.width,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: imageProvider,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
+                placeholder: (context, url) => CircularProgressIndicator(),
+                errorWidget: (context, url, error) => Icon(Icons.error),
               ),
-              placeholder: (context, url) => CircularProgressIndicator(),
-              errorWidget: (context, url, error) => Icon(Icons.error),
-            ),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Item:',
-                  style: GoogleFonts.koHo(
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold,
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Item:',
+                    style: GoogleFonts.koHo(
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.cyan,
+                    ),
+                  ),
+                  Padding(padding: EdgeInsets.all(5.0)),
+                  Text(
+                    title,
+                    style: GoogleFonts.koHo(
+                      fontSize: 25,
+                      color: Colors.cyan,
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    "Price:",
+                    style: GoogleFonts.koHo(
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.cyan,
+                    ),
+                  ),
+                  Padding(padding: EdgeInsets.all(5.0)),
+                  Icon(
+                    FontAwesomeIcons.rupeeSign,
+                    size: 21.0,
                     color: Colors.cyan,
                   ),
-                ),
-                Padding(padding: EdgeInsets.all(5.0)),
-                Text(
-                  title,
-                  style: GoogleFonts.koHo(
-                    fontSize: 25,
-                    color: Colors.cyan,
+                  Text(
+                    price,
+                    style: GoogleFonts.koHo(
+                      fontSize: 25,
+                      color: Colors.cyan,
+                    ),
                   ),
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  "Price:",
-                  style: GoogleFonts.koHo(
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.cyan,
-                  ),
-                ),
-                Padding(padding: EdgeInsets.all(5.0)),
-                Icon(
-                  FontAwesomeIcons.rupeeSign,
-                  size: 21.0,
-                  color: Colors.cyan,
-                ),
-                Text(
-                  price,
-                  style: GoogleFonts.koHo(
-                    fontSize: 25,
-                    color: Colors.cyan,
-                  ),
-                ),
-              ],
-            ),
-            TextFormField(
-              decoration: InputDecoration(hintText: "Updated Price"),
-              controller: _price,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                ElevatedButton(
+                ],
+              ),
+              TextFormField(
+                decoration: InputDecoration(hintText: "Updated Price"),
+                controller: _price,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  ElevatedButton(
                     onPressed: () {
                       void update() async {
                         await FirebaseFirestore.instance
@@ -186,22 +200,24 @@ class _ItemModifyState extends State<ItemModify> {
 
                       update();
                     },
-                    child: Text('Update')),
-                ElevatedButton(
-                    onPressed: () {
-                      void delete() async {
-                        await FirebaseFirestore.instance
-                            .collection("Items")
-                            .doc(id)
-                            .delete();
-                      }
+                    child: Text('Update'),
+                  ),
+                  ElevatedButton(
+                      onPressed: () {
+                        void delete() async {
+                          await FirebaseFirestore.instance
+                              .collection("Items")
+                              .doc(id)
+                              .delete();
+                        }
 
-                      delete();
-                    },
-                    child: Text('Delete')),
-              ],
-            ),
-          ],
+                        delete();
+                      },
+                      child: Text('Delete')),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
