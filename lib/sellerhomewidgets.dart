@@ -55,7 +55,7 @@ class _ItemModifyState extends State<ItemModify> {
               clipper: OvalBottomBorderClipper(),
               child: Container(
                   color: Color(0xff2c98f0),
-                  height: size.height * 0.097,
+                  height: 50,
                   width: size.width,
                   child: Center(
                     child: Text(
