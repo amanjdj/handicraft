@@ -202,6 +202,7 @@ class _CustomerHomeState extends State<CustomerHome> {
                                     streamSnapshot.data.docs[index]['price'],
                                     streamSnapshot.data.docs[index]['desc'],
                                     streamSnapshot.data.docs[index].id,
+                                    streamSnapshot.data.docs[index]['seller'],
                                     cartList))));
                       });
                     },
