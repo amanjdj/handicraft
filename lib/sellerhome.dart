@@ -11,29 +11,48 @@ class SellerHome extends StatefulWidget {
   _SellerHomeState createState() => _SellerHomeState();
 }
 
-class _SellerHomeState extends State<SellerHome> with TickerProviderStateMixin{
-  GoogleSignIn _googleSignIn=GoogleSignIn();
+class _SellerHomeState extends State<SellerHome> with TickerProviderStateMixin {
+  GoogleSignIn _googleSignIn = GoogleSignIn();
 
   @override
   Widget build(BuildContext context) {
     final _pageController = PageController();
     return Scaffold(
+      backgroundColor: Colors.white38,
       bottomNavigationBar: CurvedNavigationBar(
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.white,
         buttonBackgroundColor: Color(0xff2c98f0),
         color: Color(0xff2c98f0),
         index: 0,
         items: <Widget>[
-          Icon(Icons.home,size: 20,color: Colors.white,),
-          Icon(Icons.edit,size: 20,color: Colors.white,),
-          IconButton(icon: Icon(Icons.power_settings_new,size: 20,color: Colors.white,), onPressed: (){void logout()async{
-            await _googleSignIn.signOut().whenComplete((){
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Login()));
-            });
-          }
-          logout();})
+          Icon(
+            Icons.home,
+            size: 20,
+            color: Colors.white,
+          ),
+          Icon(
+            Icons.edit,
+            size: 20,
+            color: Colors.white,
+          ),
+          IconButton(
+              icon: Icon(
+                Icons.power_settings_new,
+                size: 20,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                void logout() async {
+                  await _googleSignIn.signOut().whenComplete(() {
+                    Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (context) => Login()));
+                  });
+                }
+
+                logout();
+              })
         ],
-        onTap: (index){
+        onTap: (index) {
           setState(() {
             _pageController.jumpToPage(index);
           });
@@ -44,11 +63,8 @@ class _SellerHomeState extends State<SellerHome> with TickerProviderStateMixin{
         child: PageView(
           physics: NeverScrollableScrollPhysics(),
           controller: _pageController,
-          children: [
-            OrdersArrived(),
-            ItemModify()
-          ],
-          onPageChanged: (int index){
+          children: [OrdersArrived(), ItemModify()],
+          onPageChanged: (int index) {
             setState(() {
               _pageController.jumpToPage(index);
             });
@@ -57,8 +73,9 @@ class _SellerHomeState extends State<SellerHome> with TickerProviderStateMixin{
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
-        onPressed: (){
-          Navigator.push(context, MaterialPageRoute(builder: (context)=>AddItemsBySeller()));
+        onPressed: () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => AddItemsBySeller()));
         },
       ),
     );

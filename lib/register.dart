@@ -163,6 +163,7 @@ class _RegisterState extends State<Register>with TickerProviderStateMixin {
                               GestureDetector(
                                 onTap: (){
                                   void _register()async{
+                                    await App.sharedPreferences.setString("type", _role);
                                     await FirebaseFirestore.instance.collection("users").doc(widget.email).set({
                                       "email":widget.email,
                                       "phone":_number.text.trim(),

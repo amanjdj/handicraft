@@ -12,46 +12,57 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:handicraft/splashScreen.dart';
 
 import '../orderpages.dart';
-class CustomerHome extends StatefulWidget with NavigationStates{
+
+class CustomerHome extends StatefulWidget with NavigationStates {
   @override
   _CustomerHomeState createState() => _CustomerHomeState();
 }
 
 class _CustomerHomeState extends State<CustomerHome> {
   List<Data> dataList = [];
-  GoogleSignIn _googleSignIn=GoogleSignIn();
-  // void fetchData()async{
-  //   var data=await FirebaseFirestore.instance.collection("Items").get();
-  //   print(data.docs.length);
-  //   for(int i=0;i<data.docs.length;i++){
-  //     print(data.docs[i].data()['price']);
-  //     Data model=Data(data.docs[i].data()['title'], data.docs[i].data()['price'],data.docs[i].data()['imageURL'],data.docs[i].data()['desc'], data.docs[i].data()['seller'],data.docs[i].id);
-  //     dataList.add(model);
-  //     print(data.docs[i].id);
-  //   }
-  //   setState(() {
-  //     print("Working");
-  //   });
-  // }
-  String cartLength="";
-  List<String> cartList =[];
-  // void getCart()async{
-  //   print("cart acknowledged");
-  //   var data=await FirebaseFirestore.instance.collection("users").where("email",isEqualTo:App.sharedPreferences.getString("email")).get();
-  //   setState(() {
-  //     cartList=List.from(data.docs[0].data()['cart']);
-  //     cartLength=cartList.length.toString();
-  //   });
-  //   // print(data.docs[0].data()['cart']);
-  //   print(cartList.length.toString() +"cartlength");
-  // }
+  GoogleSignIn _googleSignIn = GoogleSignIn();
+  void fetchData() async {
+    var data = await FirebaseFirestore.instance.collection("Items").get();
+    print(data.docs.length);
+    for (int i = 0; i < data.docs.length; i++) {
+      print(data.docs[i].data()['price']);
+      Data model = Data(
+          data.docs[i].data()['title'],
+          data.docs[i].data()['price'],
+          data.docs[i].data()['imageURL'],
+          data.docs[i].data()['desc'],
+          data.docs[i].data()['seller'],
+          data.docs[i].id);
+      dataList.add(model);
+      print(data.docs[i].id);
+    }
+    setState(() {
+      print("Working");
+    });
+  }
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   // fetchData();
-  //   // getCart();
-  // }
+  String cartLength = "";
+  List<String> cartList = [];
+  void getCart() async {
+    print("cart acknowledged");
+    var data = await FirebaseFirestore.instance
+        .collection("users")
+        .where("email", isEqualTo: App.sharedPreferences.getString("email"))
+        .get();
+    setState(() {
+      cartList = List.from(data.docs[0].data()['cart']);
+      cartLength = cartList.length.toString();
+    });
+    // print(data.docs[0].data()['cart']);
+    print(cartList.length.toString() + "cartlength");
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    // fetchData();
+    // getCart();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +73,9 @@ class _CustomerHomeState extends State<CustomerHome> {
           height: size.height * 0.2,
           decoration: BoxDecoration(
             color: Color(0xff44a7c4),
-            borderRadius: BorderRadius.only(bottomLeft: Radius.circular(36),bottomRight: Radius.circular(36)),
+            borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(36),
+                bottomRight: Radius.circular(36)),
             boxShadow: [
               BoxShadow(
                 color: Colors.grey,
@@ -74,40 +87,67 @@ class _CustomerHomeState extends State<CustomerHome> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Text("Welcome !..", style: Theme.of(context).textTheme.headline4.copyWith(
-                  color: Colors.white, fontWeight: FontWeight.bold
+              Text(
+                "Welcome !..",
+                style: Theme.of(context)
+                    .textTheme
+                    .headline4
+                    .copyWith(color: Colors.white, fontWeight: FontWeight.bold),
               ),
+              SizedBox(
+                width: 10,
               ),
-              SizedBox(width: 10,),
               GestureDetector(
-                onTap: (){
-                  Navigator.push(context, CupertinoPageRoute(builder: (context)=>CustomerCart(cartCount: cartList,)));
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      CupertinoPageRoute(
+                          builder: (context) => CustomerCart(
+                                cartCount: cartList,
+                              )));
                 },
                 child: Container(
                   margin: EdgeInsets.all(5),
                   height: 30,
                   width: 80,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(color: Colors.white,width: 2)
-                  ),
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(color: Colors.white, width: 2)),
                   child: Center(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        StreamBuilder(stream: FirebaseFirestore.instance.collection("users").where("email",isEqualTo:App.sharedPreferences.getString("email")).snapshots(),
-                        builder: (context,AsyncSnapshot<QuerySnapshot> streamSnapshot){
-                          void getCart()async{
-                            if(streamSnapshot.hasData){
-                              cartList=List.from(streamSnapshot.data.docs[0]['cart']);
+                        StreamBuilder(
+                          stream: FirebaseFirestore.instance
+                              .collection("users")
+                              .where("email",
+                                  isEqualTo:
+                                      App.sharedPreferences.getString("email"))
+                              .snapshots(),
+                          builder: (context,
+                              AsyncSnapshot<QuerySnapshot> streamSnapshot) {
+                            void getCart() async {
+                              if (streamSnapshot.hasData) {
+                                cartList = List.from(
+                                    streamSnapshot.data.docs[0]['cart']);
+                              }
                             }
-                          }
-                          getCart();
-                          return !streamSnapshot.hasData?CircularProgressIndicator():Text(cartList.length.toString(),style: TextStyle(color: Colors.white,fontSize: 20),);
-                        },
+
+                            getCart();
+                            return !streamSnapshot.hasData
+                                ? CircularProgressIndicator()
+                                : Text(
+                                    cartList.length.toString(),
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 20),
+                                  );
+                          },
                         ),
                         // cartLength==null?LinearProgressIndicator():Text(cartLength,style: TextStyle(color: Colors.white,fontSize: 20),),
-                        Icon(Icons.shopping_cart,color: Colors.white,)
+                        Icon(
+                          Icons.shopping_cart,
+                          color: Colors.white,
+                        )
                       ],
                     ),
                   ),
@@ -118,14 +158,15 @@ class _CustomerHomeState extends State<CustomerHome> {
         ),
         Container(
           margin: EdgeInsets.only(
-              top: 25,
-              bottom: 25,
+            top: 25,
+            bottom: 25,
           ),
           height: 24,
           child: Stack(
             children: [
-              Text("Featured Products",
-                style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20),
+              Text(
+                "Featured Products",
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
               ),
               Positioned(
                 right: 0,
@@ -140,31 +181,45 @@ class _CustomerHomeState extends State<CustomerHome> {
           ),
         ),
         Expanded(
-          child: StreamBuilder(
-            stream: FirebaseFirestore.instance.collection("Items").snapshots(),
-            builder: (context,AsyncSnapshot<QuerySnapshot> streamSnapshot){
-              return !streamSnapshot.hasData?Center(child: CircularProgressIndicator()):ListView.builder(itemCount: streamSnapshot.data.docs.length,
-                itemBuilder: (_,index){
-                  return FeaturedProductss(streamSnapshot.data.docs[index]['imageURL'],streamSnapshot.data.docs[index]['title'] ,streamSnapshot.data.docs[index]['price'],(){
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>(OrdersPages(streamSnapshot.data.docs[index]['imageURL'], streamSnapshot.data.docs[index]['title'],streamSnapshot.data.docs[index]['price'],streamSnapshot.data.docs[index]['desc'],streamSnapshot.data.docs[index].id,streamSnapshot.data.docs[index]['seller'],cartList))));
-                  }
+            child: StreamBuilder(
+          stream: FirebaseFirestore.instance.collection("Items").snapshots(),
+          builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
+            return !streamSnapshot.hasData
+                ? Center(child: CircularProgressIndicator())
+                : ListView.builder(
+                    itemCount: streamSnapshot.data.docs.length,
+                    itemBuilder: (_, index) {
+                      return FeaturedProductss(
+                          streamSnapshot.data.docs[index]['imageURL'],
+                          streamSnapshot.data.docs[index]['title'],
+                          streamSnapshot.data.docs[index]['price'], () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => (OrdersPages(
+                                    streamSnapshot.data.docs[index]['imageURL'],
+                                    streamSnapshot.data.docs[index]['title'],
+                                    streamSnapshot.data.docs[index]['price'],
+                                    streamSnapshot.data.docs[index]['desc'],
+                                    streamSnapshot.data.docs[index].id,
+                                    cartList))));
+                      });
+                    },
                   );
-                },
-              );
-            },
-          )
-        )
+          },
+        ))
       ],
     );
   }
 
-  Widget FeaturedProductss(String imageUrl, String title, String price, Function function) {
+  Widget FeaturedProductss(
+      String imageUrl, String title, String price, Function function) {
     Size size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: function,
       child: Container(
         margin: EdgeInsets.all(20),
-        width: size.width*0.7,
+        width: size.width * 0.7,
         // height: size.height*0.4,
         child: Column(
           children: [
@@ -192,16 +247,20 @@ class _CustomerHomeState extends State<CustomerHome> {
               ),
               child: Row(
                 children: [
-                  Text(title,
+                  Text(
+                    title,
                     style: TextStyle(
-                        color: Colors.black.withOpacity(0.5),fontSize: 18, fontWeight: FontWeight.bold
-                    ),
+                        color: Colors.black.withOpacity(0.5),
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold),
                   ),
                   Spacer(),
-                  Text("₹ " + price,
+                  Text(
+                    "₹ " + price,
                     style: TextStyle(
-                        color: Color(0xff44a7c4),fontSize: 18, fontWeight: FontWeight.bold
-                    ),
+                        color: Color(0xff44a7c4),
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold),
                   ),
                 ],
               ),

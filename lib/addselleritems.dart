@@ -7,6 +7,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:string_validator/string_validator.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:handicraft/splashScreen.dart';
+import 'package:image_cropper/image_cropper.dart';
 
 
 class AddItemsBySeller extends StatefulWidget {
@@ -47,9 +48,28 @@ class _AddItemsBySellerState extends State<AddItemsBySeller> {
                       onPressed: (){
                         void addImage()async{
                           final pickedFile=await _picker.getImage(source: ImageSource.gallery);
-                          setState(() {
-                            _imageFile=File(pickedFile.path);
-                          });
+                          if(pickedFile!=null){
+                            File cropped=await ImageCropper.cropImage(
+                              sourcePath: pickedFile.path,
+                              aspectRatio: CropAspectRatio(ratioX: 1, ratioY: 1),
+                              compressQuality: 100,
+                              maxWidth: 700,
+                              maxHeight: 700,
+                              compressFormat: ImageCompressFormat.jpg,
+                              androidUiSettings: AndroidUiSettings(
+                                toolbarColor: Colors.amber,
+                                toolbarTitle: "Adjust Image",
+                                statusBarColor: Colors.lightGreenAccent,
+                                backgroundColor: Colors.white,
+                                activeControlsWidgetColor: Colors.black,
+                                cropFrameColor: Colors.deepOrange,
+                                cropGridColor: Colors.purple,
+                              ),
+                            );
+                            setState(() {
+                              _imageFile=File(cropped.path);
+                            });
+                          }
                         }
                         addImage();
                       },

@@ -25,13 +25,9 @@ class _SplashScreenState extends State<SplashScreen> {
     displaySplash();
   }
   void displaySplash()async{
-    // print(sharedPreferences.getString("type"));
-    // print(sharedPreferences.getString("email"));
     Timer(Duration(seconds: 5),()async{
       if(await _googleSignIn.isSignedIn()){
-        // print(_googleSignIn.currentUser.displayName);
-        // sharedPreferences ??= await SharedPreferences.getInstance();
-        String type=await App.sharedPreferences.getString("type");
+        String type=App.sharedPreferences.getString("type");
         if(type=='seller'){
           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>(SellerHome())));
         }
