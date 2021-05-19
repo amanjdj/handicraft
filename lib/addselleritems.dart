@@ -131,13 +131,12 @@ class _AddItemsBySellerState extends State<AddItemsBySeller> {
     return downloadUrl;
   }
 
-  saveAllDataToFirebase(String imgURL){
-    final itemRef=FirebaseFirestore.instance.collection("Items");
-    itemRef.doc().set({
+  saveAllDataToFirebase(String imgURL)async{
+    await FirebaseFirestore.instance.collection("Items").doc().set({
       "title":_title.text.trim(),
       "imageURL":imgURL,
       "price":_price.text.trim(),
-      "desc":_desc.text.toString(),
+      "desc":_desc.text.trim(),
       "seller":App.sharedPreferences.getString("email")
     }).whenComplete((){
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Item uploaded successfully"),behavior: SnackBarBehavior.floating,));
