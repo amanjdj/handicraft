@@ -46,6 +46,7 @@ dependencies:
   string_validator: ^0.3.0
   firebase_storage: ^8.0.5
   google_fonts: ^2.1.0
+  image_cropper: ^1.4.0
 
 dev_dependencies:
   flutter_test:
