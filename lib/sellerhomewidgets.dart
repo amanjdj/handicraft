@@ -10,7 +10,7 @@ import 'package:handicraft/data/data.dart';
 import 'package:handicraft/login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../orderpages.dart';
+// import '../orderpages.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 
 class OrdersArrived extends StatelessWidget {

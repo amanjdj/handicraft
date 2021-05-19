@@ -49,7 +49,6 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                width: width*0.6,
                child: ElevatedButton(onPressed: (){
                  void signIn()async{
-                   // final GoogleSignInAccount account=
                    await _googleSignIn.signIn().then((value) async {
                      print(_googleSignIn.currentUser.displayName);
                      var data =await FirebaseFirestore.instance.collection("users").where("email",isEqualTo: _googleSignIn.currentUser.email).get();
@@ -69,7 +68,9 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                        });
                      }
                      else if(data.docs.isEmpty){
-                       // sharedPreferences ??= await SharedPreferences.getInstance();
+                       await App.sharedPreferences.setString("email", _googleSignIn.currentUser.email);
+                       await App.sharedPreferences.setString("url", _googleSignIn.currentUser.photoUrl);
+                       await App.sharedPreferences.setString("name", _googleSignIn.currentUser.displayName);
                        await App.sharedPreferences.setString("type", "null");
                        await Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Register(name: _googleSignIn.currentUser.displayName,imageUrl: _googleSignIn.currentUser.photoUrl,email: _googleSignIn.currentUser.email,)));
                        print("empty");
