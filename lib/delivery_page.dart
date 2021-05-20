@@ -32,7 +32,6 @@ class _DeliveryPageState extends State<DeliveryPage> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-
       backgroundColor: Color(0xff44a7c4),
       appBar: AppBar(
         backgroundColor: Color(0xff44a7c4),
@@ -79,20 +78,12 @@ class _DeliveryPageState extends State<DeliveryPage> {
                                         setState(() {
                                           titleController1.text = data[0]["PostOffice"][0]["State"];
                                           titleController2.text = data[0]["PostOffice"][0]["District"];
-                                          // if (result.statusCode==200){
-                                          //   report = false;
-                                          // }
-                                          // else{
-                                          //   report = true;
-                                          // }
                                         });
                                       }
                                     }
                                     catch(e){
                                       print(e);
                                     }
-
-
                                   }
                                   update(value);
                                 },

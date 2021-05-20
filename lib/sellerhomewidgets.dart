@@ -86,7 +86,9 @@ class _ItemModifyState extends State<ItemModify> {
                                 streamSnapshot.data.docs[index]['title'],
                                 streamSnapshot.data.docs[index]['price'],
                                 streamSnapshot.data.docs[index]['imageURL'],
-                                streamSnapshot.data.docs[index].id);
+                                streamSnapshot.data.docs[index].id,
+                                streamSnapshot.data.docs[index]['available']
+                            );
                           },
                         );
                 },
@@ -98,7 +100,7 @@ class _ItemModifyState extends State<ItemModify> {
     );
   }
 
-  Widget MyUI(String title, String price, String url, String id) {
+  Widget MyUI(String title, String price, String url, String id,String status) {
     Size size = MediaQuery.of(context).size;
     final _price = TextEditingController();
     String desc = price;
@@ -204,16 +206,21 @@ class _ItemModifyState extends State<ItemModify> {
                   ),
                   ElevatedButton(
                       onPressed: () {
-                        void delete() async {
+                        void markStockOut() async {
                           await FirebaseFirestore.instance
                               .collection("Items")
                               .doc(id)
-                              .delete();
+                              .update({"available":"stockout"});
                         }
-
-                        delete();
+                        void markStockin() async {
+                          await FirebaseFirestore.instance
+                              .collection("Items")
+                              .doc(id)
+                              .update({"available":"stockin"});
+                        }
+                        status=="stockin"?markStockOut():markStockin();
                       },
-                      child: Text('Delete')),
+                      child: Text(status=="stockin"?"Mark out of stock":"Mark stock available")),
                 ],
               ),
             ],
@@ -221,5 +228,11 @@ class _ItemModifyState extends State<ItemModify> {
         ),
       ),
     );
+    void markUpdate() async {
+      await FirebaseFirestore.instance
+          .collection("Items")
+          .doc(id)
+          .update({"available":"stockout"});
+    }
   }
 }

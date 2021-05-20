@@ -157,7 +157,8 @@ class _AddItemsBySellerState extends State<AddItemsBySeller> {
       "imageURL":imgURL,
       "price":_price.text.trim(),
       "desc":_desc.text.trim(),
-      "seller":App.sharedPreferences.getString("email")
+      "seller":App.sharedPreferences.getString("email"),
+      "available":"instock"
     }).whenComplete((){
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Item uploaded successfully"),behavior: SnackBarBehavior.floating,));
       setState(() {
