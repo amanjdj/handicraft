@@ -163,7 +163,7 @@ class _ConfirmViaCartState extends State<ConfirmViaCart> {
   }
   void confirmOrder()async{
     await getCartItems();
-    processing=true;
+
     setState(() {
     });
     int flag=1;
@@ -175,9 +175,11 @@ class _ConfirmViaCartState extends State<ConfirmViaCart> {
     }
     if(flag==0){
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Some items were removed while ordering")));
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>CustomerCart()));
       print(flag);
     }
     else{
+      processing=true;
       print(flag);
       for(int i=0;i<cartItems.length;i++){
         await FirebaseFirestore.instance.collection("Orders").doc().set({
