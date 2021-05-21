@@ -288,11 +288,6 @@ class _ItemModifyState extends State<ItemModify> {
         ),
       ),
     );
-    void markUpdate() async {
-      await FirebaseFirestore.instance
-          .collection("Items")
-          .doc(id)
-          .update({"available":"stockout"});
-    }
+
   }
 }
