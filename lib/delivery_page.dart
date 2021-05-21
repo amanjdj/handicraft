@@ -168,6 +168,7 @@ class _DeliveryPageState extends State<DeliveryPage> {
   saveAllDataToFirebase() async{
       await FirebaseFirestore.instance.collection("Orders").doc().set({
         "title": widget.title.trim(),
+        "time": DateTime.now(),
         "itemId":widget.itemID.trim(),
         "price":widget.price.trim(),
         "seller":widget.seller.trim(),

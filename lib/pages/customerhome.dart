@@ -208,7 +208,8 @@ class _CustomerHomeState extends State<CustomerHome> {
                     },
                   );
           },
-        ))
+        ),
+        )
       ],
     );
   }
