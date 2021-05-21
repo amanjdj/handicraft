@@ -48,6 +48,7 @@ dependencies:
   google_fonts: ^2.1.0
   image_cropper: ^1.4.0
   http: ^0.13.3
+  expansion_card: ^0.1.0
 
 dev_dependencies:
   flutter_test:
