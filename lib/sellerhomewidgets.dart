@@ -24,7 +24,7 @@ class _OrdersArrivedState extends State<OrdersArrived> {
 
   Future<void> fetchOrders()async{
     list.clear();
-    var data=await FirebaseFirestore.instance.collection("Orders").where("seller",isEqualTo: App.sharedPreferences.getString("email")).orderBy("date").get();
+    var data=await FirebaseFirestore.instance.collection("Orders").where("seller",isEqualTo: App.sharedPreferences.getString("email")).orderBy("time").get();
     for(int i=0;i<data.docs.length;i++){
       var img=await FirebaseFirestore.instance.collection("Items").doc(data.docs[i].data()['itemId']).get();
       var imgUrl=img.data()['imageURL'];
