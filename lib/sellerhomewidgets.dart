@@ -24,7 +24,7 @@ class _OrdersArrivedState extends State<OrdersArrived> {
 
   Future<void> fetchOrders()async{
     list.clear();
-    var data=await FirebaseFirestore.instance.collection("Orders").where("seller",isEqualTo: App.sharedPreferences.getString("email")).orderBy("time").get();
+    var data=await FirebaseFirestore.instance.collection("Orders").where("seller",isEqualTo: App.sharedPreferences.getString("email")).get();
     for(int i=0;i<data.docs.length;i++){
       var img=await FirebaseFirestore.instance.collection("Items").doc(data.docs[i].data()['itemId']).get();
       var imgUrl=img.data()['imageURL'];
@@ -33,6 +33,8 @@ class _OrdersArrivedState extends State<OrdersArrived> {
     }
     setState(() {
     });
+    print(list.length);
+
   }
   @override
   void initState() {
@@ -48,11 +50,15 @@ class _OrdersArrivedState extends State<OrdersArrived> {
           onRefresh: fetchOrders,
           child: Column(
             children: [
-              Expanded(child:ListView.builder(itemCount: list.length,
-              itemBuilder: (_,index){
-                return list.length==0?Text("No Orders",style: TextStyle(color: Colors.white),):SellerUI(list[index].title, list[index].imageurl, list[index].pincode);
-              },
-              ))
+              Expanded(
+                child: Container(
+                  child:list.length==0?Text("No Orders"): ListView.builder(itemCount: list.length,
+                  itemBuilder: (_,index){
+                    return SellerUI(list[index].title, list[index].imageurl, list[index].pincode);
+                  },
+                  ),
+                ),
+              )
             ],
           ),
         ),
