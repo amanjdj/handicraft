@@ -165,7 +165,8 @@ class _DeliveryPageState extends State<DeliveryPage> {
         "customer":App.sharedPreferences.getString("email"),
         "pinCode":titleController4.text.trim(),
         "address":titleController3.text.trim() +", " +titleController2.text.trim() +", "+titleController1.text.trim(),
-        "status": "OrderPlaced"
+        "status": "OrderPlaced",
+        "time":DateTime.now()
       }).then((value){
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Order Successful"),behavior: SnackBarBehavior.floating,));
         setState(() {
