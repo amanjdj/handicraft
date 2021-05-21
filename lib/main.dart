@@ -9,7 +9,6 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   App.sharedPreferences = await SharedPreferences.getInstance();
   await Firebase.initializeApp();
-
   runApp(MyApp());
 }
 
