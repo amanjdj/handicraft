@@ -20,7 +20,7 @@ class OrdersArrived extends StatefulWidget {
 }
 
 class _OrdersArrivedState extends State<OrdersArrived> {
-  List<CustomerPanel> list=[];
+  List<SellerPanel> list=[];
 
   Future<void> fetchOrders()async{
     list.clear();
@@ -28,7 +28,7 @@ class _OrdersArrivedState extends State<OrdersArrived> {
     for(int i=0;i<data.docs.length;i++){
       var img=await FirebaseFirestore.instance.collection("Items").doc(data.docs[i].data()['itemId']).get();
       var imgUrl=img.data()['imageURL'];
-      CustomerPanel item=CustomerPanel(data.docs[i].data()['title'],imgUrl.toString(),data.docs[i].data()['pinCode']);
+      SellerPanel item=SellerPanel(data.docs[i].data()['title'],imgUrl.toString(),data.docs[i].data()['pinCode']);
       list.add(item);
     }
     setState(() {
@@ -50,7 +50,7 @@ class _OrdersArrivedState extends State<OrdersArrived> {
             children: [
               Expanded(child:ListView.builder(itemCount: list.length,
               itemBuilder: (_,index){
-                return list.length==0?Text("No Orders",style: TextStyle(color: Colors.white),):CustomerUI(list[index].title, list[index].imageurl, list[index].pincode);
+                return list.length==0?Text("No Orders",style: TextStyle(color: Colors.white),):SellerUI(list[index].title, list[index].imageurl, list[index].pincode);
               },
               ))
             ],
@@ -60,7 +60,7 @@ class _OrdersArrivedState extends State<OrdersArrived> {
     );
   }
 
-  Widget CustomerUI(String title,String imageurl,String pincode){
+  Widget SellerUI(String title,String imageurl,String pincode){
     return Container(
       child: Column(
         children: [
@@ -76,9 +76,9 @@ class _OrdersArrivedState extends State<OrdersArrived> {
     );
   }
 }
-class CustomerPanel{
+class SellerPanel{
   String title,imageurl,pincode;
-  CustomerPanel(this.title,this.imageurl,this.pincode);
+  SellerPanel(this.title,this.imageurl,this.pincode);
 }
 
 
