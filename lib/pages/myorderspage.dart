@@ -4,14 +4,14 @@ import 'package:handicraft/sidebar_navigation/navigation_bloc.dart';
 import 'package:handicraft/splashScreen.dart';
 
 class OrdersPage extends StatelessWidget  with NavigationStates{
-  void getCustomerData()async{
-    var data=await FirebaseFirestore.instance.collection("Orders").get();
-    for(int i=0;i<data.docs.length;i++){
-      if(data.docs[i]['customer']==App.sharedPreferences.getString("email")){
-        print(data.docs[i]['price']);
-      }
-    }
-  }
+  // void getCustomerData()async{
+  //   var data=await FirebaseFirestore.instance.collection("Orders").get();
+  //   for(int i=0;i<data.docs.length;i++){
+  //     if(data.docs[i]['customer']==App.sharedPreferences.getString("email")){
+  //       print(data.docs[i]['price']);
+  //     }
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -34,13 +34,23 @@ class OrdersPage extends StatelessWidget  with NavigationStates{
               ),
             ),
           ),
+          Align(
+            alignment: Alignment(1,-9),
+            child: Container(
+              width: size.width * 0.65,
+              height: 5,
+              color: Colors.lightGreenAccent,
+            ),
+          ),
           Expanded(
             child: StreamBuilder(
               stream: FirebaseFirestore.instance.collection("Orders").where("customer",isEqualTo: App.sharedPreferences.getString("email")).snapshots(),
               builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
                 return streamSnapshot.data.docs.length==0
-                    ? Center(child: Text("No Orders",
-                  style: TextStyle(color: Colors.white,fontSize: 50),
+                    ?
+                Center(child: Text("No Orders Yet.",
+                  style: Theme.of(context).textTheme.headline5.copyWith(
+                      color: Colors.white, fontWeight: FontWeight.bold),
                 ))
                     : ListView.builder(
                   itemCount: streamSnapshot.data.docs.length,

@@ -16,6 +16,7 @@ class OrdersPages extends StatelessWidget  with NavigationStates{
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    double size2 =  size.width * 0.6;
     return Scaffold(
       backgroundColor: Color(0xff44a7c4),
       appBar: AppBar(
@@ -128,7 +129,7 @@ class OrdersPages extends StatelessWidget  with NavigationStates{
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(10.0),
+                    padding: const EdgeInsets.all(8.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -137,6 +138,7 @@ class OrdersPages extends StatelessWidget  with NavigationStates{
                               color: Colors.white, fontWeight: FontWeight.bold),
                         ),
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             RichText(
                                 text: TextSpan(
@@ -146,15 +148,15 @@ class OrdersPages extends StatelessWidget  with NavigationStates{
                                       text: "₹ " + price,
                                       style: Theme.of(context).textTheme.headline4.copyWith(
                                         color: Colors.white,
-                                        fontWeight: FontWeight.bold,
+                                        fontWeight: FontWeight.bold,fontSize: size2 * 0.09,
                                       ),
                                     ),
                                   ]
                                 ),
                             ),
-                            SizedBox(
-                              width: size.width * 0.1,
-                            ),
+                            // SizedBox(
+                            //   width: size.width * 0.1,
+                            // ),
                             Container(
                               height: size.height * 0.35,
                               width: size.width * 0.5,

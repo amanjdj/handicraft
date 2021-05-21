@@ -53,9 +53,9 @@ class _OrdersArrivedState extends State<OrdersArrived> {
               Expanded(
                 child: Container(
                   child:list.length==0?Text("No Orders"): ListView.builder(itemCount: list.length,
-                  itemBuilder: (_,index){
-                    return SellerUI(list[index].title, list[index].imageurl, list[index].pincode);
-                  },
+                    itemBuilder: (_,index){
+                      return SellerUI(list[index].title, list[index].imageurl, list[index].pincode);
+                    },
                   ),
                 ),
               )
@@ -139,24 +139,24 @@ class _ItemModifyState extends State<ItemModify> {
                 stream: FirebaseFirestore.instance
                     .collection("Items")
                     .where("seller",
-                        isEqualTo: App.sharedPreferences.getString("email"))
+                    isEqualTo: App.sharedPreferences.getString("email"))
                     .snapshots(),
                 builder:
                     (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
                   return !streamSnapshot.hasData
                       ? CircularProgressIndicator()
                       : ListView.builder(
-                          itemCount: streamSnapshot.data.docs.length,
-                          itemBuilder: (_, index) {
-                            return MyUI(
-                                streamSnapshot.data.docs[index]['title'],
-                                streamSnapshot.data.docs[index]['price'],
-                                streamSnapshot.data.docs[index]['imageURL'],
-                                streamSnapshot.data.docs[index].id,
-                                streamSnapshot.data.docs[index]['available']
-                            );
-                          },
-                        );
+                    itemCount: streamSnapshot.data.docs.length,
+                    itemBuilder: (_, index) {
+                      return MyUI(
+                          streamSnapshot.data.docs[index]['title'],
+                          streamSnapshot.data.docs[index]['price'],
+                          streamSnapshot.data.docs[index]['imageURL'],
+                          streamSnapshot.data.docs[index].id,
+                          streamSnapshot.data.docs[index]['available']
+                      );
+                    },
+                  );
                 },
               ),
             ),
@@ -261,9 +261,9 @@ class _ItemModifyState extends State<ItemModify> {
                             .doc(id)
                             .update({"price": _price.text.trim()}).then(
                                 (value) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text("Price Updated")));
-                        });
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text("Price Updated")));
+                            });
                       }
 
                       update();
@@ -282,11 +282,12 @@ class _ItemModifyState extends State<ItemModify> {
                           await FirebaseFirestore.instance
                               .collection("Items")
                               .doc(id)
-                              .update({"available":"stockin"});
+                              .update({"available":"instock"});
                         }
-                        status=="stockin"?markStockOut():markStockin();
+                        status=="instock"?markStockOut():markStockin();
                       },
-                      child: Text(status=="stockin"?"Mark out of stock":"Mark stock available")),
+                      child: Text(status=="instock"?"Mark out of stock":"Mark stock available")
+                  ),
                 ],
               ),
             ],

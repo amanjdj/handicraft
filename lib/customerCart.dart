@@ -94,20 +94,20 @@ class _CustomerCartState extends State<CustomerCart> {
           children: [
             Text(title),
             Text(price.toString()),
-            avaiblity=="stockin"?SizedBox(height: 0,):Text("Not available"),
+            avaiblity=="instock"?SizedBox(height: 0,):Text("Not available"),
             ElevatedButton(onPressed: (){
               void remove()async{
                 widget.cartCount.remove(itemID);
                 // setState(() {
-                  cartItems.removeWhere((element) => element.itemID==itemID);
-                  setState(() {
-                    totalPrice=double.parse(totalPrice.toString())-double.parse(price);
-                  });
+                cartItems.removeWhere((element) => element.itemID==itemID);
+                setState(() {
+                  totalPrice=double.parse(totalPrice.toString())-double.parse(price);
+                });
                 // });
                 await FirebaseFirestore.instance.collection("users").doc(App.sharedPreferences.getString("email")).update({
                   "cart":widget.cartCount
                 }).then((value){
-                  
+
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:Text("Removed from cart")));
                 });
               }
@@ -117,7 +117,7 @@ class _CustomerCartState extends State<CustomerCart> {
         ),
       ),
     );
-}
+  }
 }
 
 class CartCard{
