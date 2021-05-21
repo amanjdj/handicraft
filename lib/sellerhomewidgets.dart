@@ -1,3 +1,4 @@
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:handicraft/splashScreen.dart';
@@ -10,25 +11,91 @@ import 'package:handicraft/data/data.dart';
 import 'package:handicraft/login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:google_fonts/google_fonts.dart';
-// import '../orderpages.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 
-class OrdersArrived extends StatelessWidget {
-  const OrdersArrived({Key key}) : super(key: key);
+class OrdersArrived extends StatefulWidget {
+
+  @override
+  _OrdersArrivedState createState() => _OrdersArrivedState();
+}
+
+class _OrdersArrivedState extends State<OrdersArrived> {
+  List<SellerPanel> list=[];
+
+  Future<void> fetchOrders()async{
+    list.clear();
+    var data=await FirebaseFirestore.instance.collection("Orders").where("seller",isEqualTo: App.sharedPreferences.getString("email")).get();
+    for(int i=0;i<data.docs.length;i++){
+      var img=await FirebaseFirestore.instance.collection("Items").doc(data.docs[i].data()['itemId']).get();
+      var imgUrl=img.data()['imageURL'];
+      SellerPanel item=SellerPanel(data.docs[i].data()['title'],imgUrl.toString(),data.docs[i].data()['pinCode']);
+      list.add(item);
+    }
+    setState(() {
+    });
+    print(list.length);
+
+  }
+  @override
+  void initState() {
+    super.initState();
+    fetchOrders();
+  }
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Container(
-          color: Colors.transparent,
-          child: SingleChildScrollView(
-            child: SafeArea(
-              child: Text(App.sharedPreferences.getString("email")),
-            ),
-          )),
+      child: SafeArea(
+        child: RefreshIndicator(
+          onRefresh: fetchOrders,
+          child: Column(
+            children: [
+              Expanded(
+                child: Container(
+                  child:list.length==0?Text("No Orders"): ListView.builder(itemCount: list.length,
+                  itemBuilder: (_,index){
+                    return SellerUI(list[index].title, list[index].imageurl, list[index].pincode);
+                  },
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget SellerUI(String title,String imageurl,String pincode){
+    return Container(
+      child: Column(
+        children: [
+          Text(title),
+          Container(
+            height: 200,
+            width: 200,
+            child:Image.network(imageurl) ,
+          ),
+          Text(pincode)
+        ],
+      ),
     );
   }
 }
+class SellerPanel{
+  String title,imageurl,pincode;
+  SellerPanel(this.title,this.imageurl,this.pincode);
+}
+
+
+
+
+
+
+
+
+
+
 
 class ItemModify extends StatefulWidget {
   const ItemModify({Key key}) : super(key: key);
@@ -36,7 +103,6 @@ class ItemModify extends StatefulWidget {
   @override
   _ItemModifyState createState() => _ItemModifyState();
 }
-
 class _ItemModifyState extends State<ItemModify> {
   @override
   void initState() {
@@ -86,7 +152,9 @@ class _ItemModifyState extends State<ItemModify> {
                                 streamSnapshot.data.docs[index]['title'],
                                 streamSnapshot.data.docs[index]['price'],
                                 streamSnapshot.data.docs[index]['imageURL'],
-                                streamSnapshot.data.docs[index].id);
+                                streamSnapshot.data.docs[index].id,
+                                streamSnapshot.data.docs[index]['available']
+                            );
                           },
                         );
                 },
@@ -98,7 +166,7 @@ class _ItemModifyState extends State<ItemModify> {
     );
   }
 
-  Widget MyUI(String title, String price, String url, String id) {
+  Widget MyUI(String title, String price, String url, String id,String status) {
     Size size = MediaQuery.of(context).size;
     final _price = TextEditingController();
     String desc = price;
@@ -204,16 +272,21 @@ class _ItemModifyState extends State<ItemModify> {
                   ),
                   ElevatedButton(
                       onPressed: () {
-                        void delete() async {
+                        void markStockOut() async {
                           await FirebaseFirestore.instance
                               .collection("Items")
                               .doc(id)
-                              .delete();
+                              .update({"available":"stockout"});
                         }
-
-                        delete();
+                        void markStockin() async {
+                          await FirebaseFirestore.instance
+                              .collection("Items")
+                              .doc(id)
+                              .update({"available":"stockin"});
+                        }
+                        status=="stockin"?markStockOut():markStockin();
                       },
-                      child: Text('Delete')),
+                      child: Text(status=="stockin"?"Mark out of stock":"Mark stock available")),
                 ],
               ),
             ],
@@ -221,5 +294,6 @@ class _ItemModifyState extends State<ItemModify> {
         ),
       ),
     );
+
   }
 }

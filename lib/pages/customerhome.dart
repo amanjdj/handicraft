@@ -21,41 +21,10 @@ class CustomerHome extends StatefulWidget with NavigationStates {
 class _CustomerHomeState extends State<CustomerHome> {
   List<Data> dataList = [];
   GoogleSignIn _googleSignIn = GoogleSignIn();
-  void fetchData() async {
-    var data = await FirebaseFirestore.instance.collection("Items").get();
-    print(data.docs.length);
-    for (int i = 0; i < data.docs.length; i++) {
-      print(data.docs[i].data()['price']);
-      Data model = Data(
-          data.docs[i].data()['title'],
-          data.docs[i].data()['price'],
-          data.docs[i].data()['imageURL'],
-          data.docs[i].data()['desc'],
-          data.docs[i].data()['seller'],
-          data.docs[i].id);
-      dataList.add(model);
-      print(data.docs[i].id);
-    }
-    setState(() {
-      print("Working");
-    });
-  }
 
-  String cartLength = "";
+
   List<String> cartList = [];
-  void getCart() async {
-    print("cart acknowledged");
-    var data = await FirebaseFirestore.instance
-        .collection("users")
-        .where("email", isEqualTo: App.sharedPreferences.getString("email"))
-        .get();
-    setState(() {
-      cartList = List.from(data.docs[0].data()['cart']);
-      cartLength = cartList.length.toString();
-    });
-    // print(data.docs[0].data()['cart']);
-    print(cartList.length.toString() + "cartlength");
-  }
+
 
   @override
   void initState() {

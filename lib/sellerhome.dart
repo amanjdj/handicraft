@@ -18,7 +18,7 @@ class _SellerHomeState extends State<SellerHome> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     final _pageController = PageController();
     return Scaffold(
-      backgroundColor: Colors.white38,
+      // backgroundColor: Colors.white38,
       bottomNavigationBar: CurvedNavigationBar(
         backgroundColor: Colors.white,
         buttonBackgroundColor: Color(0xff2c98f0),

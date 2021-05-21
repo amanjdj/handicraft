@@ -32,7 +32,6 @@ class _DeliveryPageState extends State<DeliveryPage> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-
       backgroundColor: Color(0xff44a7c4),
       appBar: AppBar(
         backgroundColor: Color(0xff44a7c4),
@@ -79,20 +78,12 @@ class _DeliveryPageState extends State<DeliveryPage> {
                                         setState(() {
                                           titleController1.text = data[0]["PostOffice"][0]["State"];
                                           titleController2.text = data[0]["PostOffice"][0]["District"];
-                                          // if (result.statusCode==200){
-                                          //   report = false;
-                                          // }
-                                          // else{
-                                          //   report = true;
-                                          // }
                                         });
                                       }
                                     }
                                     catch(e){
                                       print(e);
                                     }
-
-
                                   }
                                   update(value);
                                 },
@@ -175,7 +166,8 @@ class _DeliveryPageState extends State<DeliveryPage> {
         "customer":App.sharedPreferences.getString("email"),
         "pinCode":titleController4.text.trim(),
         "address":titleController3.text.trim() +", " +titleController2.text.trim() +", "+titleController1.text.trim(),
-        "status": "OrderPlaced"
+        "status": "OrderPlaced",
+        "time":DateTime.now()
       }).then((value){
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Order Successful"),behavior: SnackBarBehavior.floating,));
         setState(() {
