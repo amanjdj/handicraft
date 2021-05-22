@@ -22,6 +22,7 @@ class _DeliveryPageState extends State<DeliveryPage> {
 
 
   final titleController1 = TextEditingController();
+  final titleControllerName = TextEditingController();
   final titleController2 = TextEditingController();
   final titleController3 = TextEditingController();
   final titleController4 = TextEditingController();
@@ -60,6 +61,7 @@ class _DeliveryPageState extends State<DeliveryPage> {
                     Container(
                       child: Column(
                         children: [
+                          TextField1(icon: Icons.person,title: "Name",titleController: titleControllerName),
                           Container(
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
@@ -107,9 +109,9 @@ class _DeliveryPageState extends State<DeliveryPage> {
                               ),
                             ),
                           ),
-                          TextField1(icon: Icons.map,title: "State",titleController: titleController1,),
-                          TextField1(icon: Icons.location_city,title: "City",titleController: titleController2,),
-                          TextField1(icon: Icons.landscape,title: "Locality",titleController: titleController3,),
+                          TextField1(icon: Icons.map,title: "State",titleController: titleController1),
+                          TextField1(icon: Icons.location_city,title: "City",titleController: titleController2),
+                          TextField1(icon: Icons.landscape,title: "Locality",titleController: titleController3),
                         ],
                       ),
                     ),
@@ -136,7 +138,7 @@ class _DeliveryPageState extends State<DeliveryPage> {
                   onPressed: (){
                     final isValid = _formKey.currentState.validate();
                     if (isValid) {
-                      uploadButton();
+                      buyNow();
                       // Navigator.push(context, MaterialPageRoute(
                       //     builder: (context) => OrderSuccessFull()));
                     }
@@ -150,15 +152,33 @@ class _DeliveryPageState extends State<DeliveryPage> {
       ),
     );
   }
-  uploadButton() async{
-    setState(() {
-      processing=true;
-    });
-    saveAllDataToFirebase();
+
+  void buyNow() async{
+    setState(() {});
+
+    int flag = 1;
+    var data = await FirebaseFirestore.instance
+        .collection("Items")
+        .doc(widget.itemID)
+        .get();
+    if (data.data()['available'] == "stockout") {
+      flag = 0;
+    }
+    if (flag == 1) {
+        setState(() {
+          processing=true;
+        });
+        saveAllDataToFirebase();
+      }
+    else{
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Order out of Stock"),behavior: SnackBarBehavior.floating,));
+    }
   }
+
   saveAllDataToFirebase() async{
       await FirebaseFirestore.instance.collection("Orders").doc().set({
         "title": widget.title.trim(),
+        "name": titleControllerName.text.trim(),
         "time": DateTime.now(),
         "itemId":widget.itemID.trim(),
         "price":widget.price.trim(),
@@ -166,7 +186,7 @@ class _DeliveryPageState extends State<DeliveryPage> {
         "customer":App.sharedPreferences.getString("email"),
         "pinCode":titleController4.text.trim(),
         "address":titleController3.text.trim() +", " +titleController2.text.trim() +", "+titleController1.text.trim(),
-        "status": "OrderPlaced",
+        "status": "Order Placed",
         "time":DateTime.now()
       }).then((value){
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Order Successful"),behavior: SnackBarBehavior.floating,));

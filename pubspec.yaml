@@ -49,6 +49,8 @@ dependencies:
   image_cropper: ^1.4.0
   http: ^0.13.3
   expansion_card: ^0.1.0
+  expansion_tile_card: ^1.1.0
+  expand_widget: ^2.1.0
 
 dev_dependencies:
   flutter_test:

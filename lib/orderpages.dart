@@ -7,12 +7,17 @@ import 'package:handicraft/delivery_page.dart';
 import 'package:handicraft/sidebar_navigation/navigation_bloc.dart';
 import 'package:handicraft/splashScreen.dart';
 
-class OrdersPages extends StatelessWidget  with NavigationStates{
+class OrdersPages extends StatefulWidget  with NavigationStates{
   String imageUrl,title,price,desc,itemID,seller;
   List<String> cartList;
 
   OrdersPages(this.imageUrl,this.title,this.price,this.desc,this.itemID,this.seller,this.cartList);
 
+  @override
+  _OrdersPagesState createState() => _OrdersPagesState();
+}
+
+class _OrdersPagesState extends State<OrdersPages> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -61,7 +66,7 @@ class OrdersPages extends StatelessWidget  with NavigationStates{
                           ),
                           child: Padding(
                             padding: const EdgeInsets.symmetric(vertical: 15),
-                            child: Text(desc,
+                            child: Text(widget.desc,
                               style: TextStyle(height: 1.5),
                             ),
                           ),
@@ -84,12 +89,12 @@ class OrdersPages extends StatelessWidget  with NavigationStates{
                                 icon: Icon(Icons.add_shopping_cart),
                                 onPressed: (){
                                 void addToCart()async{
-                                  if(cartList.contains(itemID)){
+                                  if(widget.cartList.contains(widget.itemID)){
                                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Item already added")));}
                                   else{
-                                    cartList.add(itemID);
+                                    widget.cartList.add(widget.itemID);
                                     await FirebaseFirestore.instance.collection("users").doc(App.sharedPreferences.getString("email")).update({
-                                      "cart":cartList
+                                      "cart":widget.cartList
                                     }).then((value){
                                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:Text("Added to cart")));
                                     });
@@ -117,7 +122,7 @@ class OrdersPages extends StatelessWidget  with NavigationStates{
                                           ),
                                       ),
                                       onPressed: (){
-                                        Navigator.push(context, MaterialPageRoute(builder: (context) => DeliveryPage(imageUrl,title,price,desc,itemID,seller)));
+                                        buyNow();
                                       },
                                       child: Text("Buy Now"),
                                   )
@@ -133,7 +138,7 @@ class OrdersPages extends StatelessWidget  with NavigationStates{
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(title,
+                        Text(widget.title,
                           style: Theme.of(context).textTheme.headline4.copyWith(
                               color: Colors.white, fontWeight: FontWeight.bold),
                         ),
@@ -145,7 +150,7 @@ class OrdersPages extends StatelessWidget  with NavigationStates{
                                   children: [
                                     TextSpan(text: "Price\n"),
                                     TextSpan(
-                                      text: "₹ " + price,
+                                      text: "₹ " + widget.price,
                                       style: Theme.of(context).textTheme.headline4.copyWith(
                                         color: Colors.white,
                                         fontWeight: FontWeight.bold,fontSize: size2 * 0.09,
@@ -169,7 +174,7 @@ class OrdersPages extends StatelessWidget  with NavigationStates{
                                 fit: BoxFit.fill,
                                 height: size.height * 0.35,
                                 width: size.width * 0.5,
-                                imageUrl: imageUrl,
+                                imageUrl: widget.imageUrl,
                                 progressIndicatorBuilder: (context, url, downloadProgress) =>
                                     CircularProgressIndicator(value: downloadProgress.progress),
                                 errorWidget: (context, url, error) => Icon(Icons.error),
@@ -246,4 +251,26 @@ class OrdersPages extends StatelessWidget  with NavigationStates{
       ),
     );
   }
+  void buyNow() async{
+    setState(() {});
+
+    int flag = 1;
+      var data = await FirebaseFirestore.instance
+          .collection("Items")
+          .doc(widget.itemID)
+          .get();
+      if (data.data()['available'] == "stockout") {
+        flag = 0;
+      }
+    if (flag == 1) {
+      Navigator.push(context, MaterialPageRoute(builder: (context) =>
+          DeliveryPage(widget.imageUrl, widget.title, widget.price, widget.desc,
+              widget.itemID, widget.seller)));
+    }
+    else{
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Order out of Stock"),behavior: SnackBarBehavior.floating,));
+    }
+  }
 }
+
+

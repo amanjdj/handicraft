@@ -44,6 +44,7 @@ class _ConfirmViaCartState extends State<ConfirmViaCart> {
   final _city = TextEditingController();
   final _locality = TextEditingController();
   final _pinCode = TextEditingController();
+  final titleControllerName = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -80,6 +81,7 @@ class _ConfirmViaCartState extends State<ConfirmViaCart> {
                           Container(
                             child: Column(
                               children: [
+                                TextField1(icon: Icons.person,title: "Name",titleController: titleControllerName),
                                 Container(
                                   child: Padding(
                                     padding: const EdgeInsets.all(8.0),
@@ -232,6 +234,7 @@ class _ConfirmViaCartState extends State<ConfirmViaCart> {
       for (int i = 0; i < cartItems.length; i++) {
         await FirebaseFirestore.instance.collection("Orders").doc().set({
           "title": cartItems[i].title,
+          "name": titleControllerName.text.trim(),
           "itemId": cartItems[i].itemID,
           "price": cartItems[i].price,
           "seller": cartItems[i].seller,
