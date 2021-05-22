@@ -13,6 +13,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:expansion_card/expansion_card.dart';
+import 'package:expand_widget/expand_widget.dart';
 
 class OrdersArrived extends StatefulWidget {
   @override
@@ -34,8 +35,23 @@ class _OrdersArrivedState extends State<OrdersArrived> {
           .doc(data.docs[i].data()['itemId'])
           .get();
       var imgUrl = img.data()['imageURL'];
-      SellerPanel item = SellerPanel(data.docs[i].data()['title'],
-          imgUrl.toString(), data.docs[i].data()['pinCode']);
+      var cus = data.docs[i].data()["customer"];
+      var userdata =
+          await FirebaseFirestore.instance.collection("users").doc(cus).get();
+      var phone = userdata.data()["phone"];
+
+      SellerPanel item = SellerPanel(
+          data.docs[i].data()['title'],
+          imgUrl.toString(),
+          data.docs[i].data()['pinCode'],
+          data.docs[i].data()['price'],
+          data.docs[i].data()['status'],
+          data.docs[i].id,
+          data.docs[i].data()['name'],
+          phone,
+          data.docs[i].data()['address'],
+          data.docs[i].data()['time']);
+
       list.add(item);
     }
     setState(() {});
@@ -66,8 +82,18 @@ class _OrdersArrivedState extends State<OrdersArrived> {
                       : ListView.builder(
                           itemCount: list.length,
                           itemBuilder: (_, index) {
-                            return SellerUI(list[index].title,
-                                list[index].imageurl, list[index].pincode);
+                            return SellerUI(
+                              list[index].title,
+                              list[index].imageurl,
+                              list[index].pincode,
+                              list[index].price,
+                              list[index].status,
+                              list[index].id,
+                              list[index].name,
+                              list[index].phone,
+                              list[index].address,
+                              list[index].date,
+                            );
                           },
                         ),
                 ),
@@ -79,59 +105,188 @@ class _OrdersArrivedState extends State<OrdersArrived> {
     );
   }
 
-  Widget SellerUI(String title, String imageurl, String pincode) {
-    return Center(
-        child: ExpansionCard(
-      title: Card(
-        child: Container(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                title,
-              ),
-              Text(
-                pincode,
-              ),
-              Image.network(imageurl)
-            ],
-          ),
-        ),
-      ),
-      children: <Widget>[
-        Card(
-          child: Container(
-            margin: EdgeInsets.symmetric(horizontal: 7),
-            child: Text(
-              "Content goes over here !",
+  Widget SellerUI(
+      String title,
+      String imageurl,
+      String pincode,
+      String price,
+      String Status,
+      String id,
+      String name,
+      String phone,
+      String address,
+      Timestamp date) {
+    Size size = MediaQuery.of(context).size;
+    print(price);
+    print(pincode);
+
+    return Container(
+      margin: EdgeInsets.all(10),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(color: Colors.black),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black26,
+              blurRadius: 10.0,
+              offset: Offset(0.0, 5.0),
+            ),
+          ]),
+      child: Column(
+        children: [
+          Container(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  pincode,
+                ),
+                Row(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.all(10),
+                      width: size.width * .5,
+                      height: size.width * .5,
+                      child: Image.network(
+                        imageurl,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Column(
+                      children: [
+                        Text(
+                          title,
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.koHo(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Row(
+                          children: [
+                            Icon(FontAwesomeIcons.rupeeSign,
+                                color: Colors.teal, size: 18),
+                            Text(
+                              price,
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.koHo(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Text(
+                          title,
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.koHo(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                ExpandChild(
+                    child: Column(
+                  children: [
+                    Text(
+                      name,
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.koHo(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      phone,
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.koHo(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      address,
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.koHo(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      date.toDate().day.toString() +
+                          "/" +
+                          date.toDate().month.toString() +
+                          "/" +
+                          date.toDate().year.toString() +
+                          '    ' +
+                          date.toDate().toLocal().hour.toString() +
+                          ':' +
+                          date.toDate().minute.toString(),
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.koHo(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Row(
+                      children: [
+                        ElevatedButton(
+                            onPressed: () {
+                              void shipped() {
+                                FirebaseFirestore.instance
+                                    .collection('Orders')
+                                    .doc(id)
+                                    .update({"status": "Order Shipped"});
+                              }
+
+                              shipped();
+                            },
+                            style: ElevatedButton.styleFrom(
+                                primary: Colors.black54),
+                            child: Text("Order Shipped")),
+                        ElevatedButton(
+                            onPressed: () {
+                              void cancelled() {
+                                FirebaseFirestore.instance
+                                    .collection('Orders')
+                                    .doc(id)
+                                    .update({
+                                  "status": "Order Cancelled by Seller"
+                                });
+                              }
+
+                              cancelled();
+                            },
+                            style: ElevatedButton.styleFrom(
+                              primary: Colors.black54,
+                            ),
+                            child: Text("Cancel Order")),
+                      ],
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    )
+                  ],
+                ))
+              ],
             ),
           ),
-        )
-      ],
-    ));
-    // return ExpansionCard(
-    //   children: [
-    //     Container(
-    //       child: Column(
-    //         children: [
-    //           Text(title),
-    //           Container(
-    //             height: 200,
-    //             width: 200,
-    //             child: Image.network(imageurl),
-    //           ),
-    //           Text(pincode)
-    //         ],
-    //       ),
-    //     ),
-    //   ],
-    // );
+        ],
+      ),
+    );
   }
 }
 
 class SellerPanel {
-  String title, imageurl, pincode;
-  SellerPanel(this.title, this.imageurl, this.pincode);
+  String title, imageurl, pincode, price, status, id, name, phone, address;
+  Timestamp date;
+  SellerPanel(this.title, this.imageurl, this.pincode, this.price, this.status,
+      this.id, this.name, this.phone, this.address, this.date);
 }
 
 class ItemModify extends StatefulWidget {
