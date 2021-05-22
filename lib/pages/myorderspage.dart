@@ -38,22 +38,33 @@ class OrdersPage extends StatelessWidget  with NavigationStates{
             child: StreamBuilder(
               stream: FirebaseFirestore.instance.collection("Orders").where("customer",isEqualTo: App.sharedPreferences.getString("email")).snapshots(),
               builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
-                return streamSnapshot.data.docs.length==0
-                    ? Center(child: Text("No Orders",
-                  style: TextStyle(color: Colors.white,fontSize: 50),
-                ))
-                    : ListView.builder(
-                  itemCount: streamSnapshot.data.docs.length,
-                  itemBuilder: (_, index) {
-                    return OrdersContainer(context,
-                      streamSnapshot.data.docs[index].id,
-                        streamSnapshot.data.docs[index]['title'],
-                      streamSnapshot.data.docs[index]['price'],
-                        streamSnapshot.data.docs[index]['status'],
-                      streamSnapshot.data.docs[index]['time'],
-                    );
-                  },
-                );
+                Widget fetchWidget(AsyncSnapshot<QuerySnapshot> streamSnapshot){
+                  if(!streamSnapshot.hasData){
+                    return CircularProgressIndicator();
+                  }
+                  else{
+                    if(streamSnapshot.data.docs.length==0){
+                      return Center(child: Text("No Orders",
+                        style: TextStyle(color: Colors.white,fontSize: 50),
+                      ));
+                    }
+                    else{
+                      return ListView.builder(
+                        itemCount: streamSnapshot.data.docs.length,
+                        itemBuilder: (_, index) {
+                          return OrdersContainer(context,
+                            streamSnapshot.data.docs[index].id,
+                            streamSnapshot.data.docs[index]['title'],
+                            streamSnapshot.data.docs[index]['price'],
+                            streamSnapshot.data.docs[index]['status'],
+                            streamSnapshot.data.docs[index]['time'],
+                          );
+                        },
+                      );
+                    }
+                  }
+                }
+                return fetchWidget(streamSnapshot);
               },
             ),
           ),
