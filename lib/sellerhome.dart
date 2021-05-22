@@ -20,7 +20,7 @@ class _SellerHomeState extends State<SellerHome> with TickerProviderStateMixin {
     return Scaffold(
       // backgroundColor: Colors.white38,
       bottomNavigationBar: CurvedNavigationBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.transparent,
         buttonBackgroundColor: Color(0xff2c98f0),
         color: Color(0xff2c98f0),
         index: 0,
