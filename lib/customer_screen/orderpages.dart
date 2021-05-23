@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:handicraft/delivery_page.dart';
+import 'package:handicraft/customer_screen/delivery_page.dart';
 import 'package:handicraft/sidebar_navigation/navigation_bloc.dart';
 import 'package:handicraft/splashScreen.dart';
 
@@ -163,8 +163,8 @@ class _OrdersPagesState extends State<OrdersPages> {
                             //   width: size.width * 0.1,
                             // ),
                             Container(
-                              height: size.height * 0.35,
                               width: size.width * 0.5,
+                              height: size.width * 0.5,
                               decoration: BoxDecoration(
                                 // shape: BoxShape.circle,
                                 color: Colors.black,

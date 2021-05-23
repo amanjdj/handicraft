@@ -1,17 +1,17 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:handicraft/customerCart.dart';
+import 'package:handicraft/customer_screen/customerCart.dart';
 import 'package:handicraft/data/data.dart';
-import 'package:handicraft/login.dart';
+import 'package:handicraft/auth/login.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:handicraft/pages/myorderspage.dart';
+import 'package:handicraft/customer_screen/myorderspage.dart';
 import 'package:handicraft/sidebar_navigation/navigation_bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:handicraft/splashScreen.dart';
 
-import '../orderpages.dart';
+import 'orderpages.dart';
 
 class CustomerHome extends StatefulWidget with NavigationStates {
   @override

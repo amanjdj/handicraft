@@ -104,13 +104,13 @@ class _OrdersPageState extends State<OrdersPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: const EdgeInsets.all(15.0),
+                  padding: const EdgeInsets.only(left: 8,top: 8),
                   child: Text("Order No: " + orderNo,
                       style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black)
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(15.0),
+                  padding: const EdgeInsets.only(right: 8,top: 8),
                   child: Text(date.toDate().day.toString() + ":" + date.toDate().month.toString() + ":" + date.toDate().year.toString(),
                     style: TextStyle(fontSize: 15),
                   ),
@@ -121,9 +121,9 @@ class _OrdersPageState extends State<OrdersPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(left: 15,top: 15),
+                  padding: const EdgeInsets.only(left: 10,top: 16),
                   child: Text("Item Name: ",
-                    style: Theme.of(context).textTheme.headline6.copyWith(
+                    style: TextStyle(fontSize: 16,
                         color: Colors.grey,
                         fontWeight: FontWeight.bold),
                   ),
@@ -131,7 +131,7 @@ class _OrdersPageState extends State<OrdersPage> {
                 Padding(
                   padding: const EdgeInsets.only(top: 15),
                   child: Text(itemId,
-                    style: Theme.of(context).textTheme.headline6.copyWith(
+                    style: TextStyle(fontSize: 18,
                         color: Colors.black,
                         fontWeight: FontWeight.bold),
                   ),
@@ -141,49 +141,26 @@ class _OrdersPageState extends State<OrdersPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 10,top: 20),
-                  child: Text("Total Amount: ",
-                    style: Theme.of(context).textTheme.headline6.copyWith(
-                        color: Colors.grey,
-                        fontWeight: FontWeight.bold),
-                  ),
+                Text("Total Amount: ",
+                  style: TextStyle(fontSize: 16,
+                      color: Colors.grey,
+                      fontWeight: FontWeight.bold),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 20,right: 10,bottom: 10),
-                  child: Text("₹" + price,
-                    style: Theme.of(context).textTheme.headline6.copyWith(
+                  padding: const EdgeInsets.only(right: 8),
+                  child: Text("₹ " + price,
+                    style: TextStyle(fontSize: 18,
                         color: Colors.black,
                         fontWeight: FontWeight.bold),
                   ),
-                )
+                ),
               ],
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                // Padding(
-                //   padding: const EdgeInsets.all(8.0),
-                //   child: GestureDetector(
-                //     onTap: (){},
-                //     child: Container(
-                //       // margin: EdgeInsets.only(right: 15),
-                //       height: 45,
-                //       width: 130,
-                //       decoration: BoxDecoration(
-                //           borderRadius: BorderRadius.circular(26),
-                //           border: Border.all(
-                //             color: Colors.black,
-                //           )
-                //       ),
-                //         child: Center(child: Text("Details",
-                //           style: TextStyle(fontSize: 18,fontWeight: FontWeight.w500),
-                //         )),
-                //       ),
-                //   )
-                //   ),
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.only(left: 8),
                   child: Text(status,
                     style: Theme.of(context).textTheme.headline6.copyWith(
                         color: Colors.green,
@@ -194,10 +171,10 @@ class _OrdersPageState extends State<OrdersPage> {
             ),
             ExpandChild(
                 child: Column(
-                  // crossAxisAlignment: CrossAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
-                      width: size.width * 0.75,
+                      width: size.width * 0.7,
                       height: size.width * 0.5,
                       decoration: BoxDecoration(
                         color: Colors.white,
@@ -220,6 +197,62 @@ class _OrdersPageState extends State<OrdersPage> {
                         errorWidget: (context, url, error) => Icon(Icons.error),
                       ),
                     ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8,left: 8,bottom: 5),
+                      child: Text("Seller Details: ",
+                        style: Theme.of(context).textTheme.headline6.copyWith(
+                            color: Colors.grey,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 15),
+                      child: Text(id,
+                          style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black,fontSize: 18)
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 15),
+                      child: Text(no,
+                          style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black,fontSize: 18)
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 15,right: 15,bottom: 5),
+                      child: SizedBox(
+                        height: 50,
+                        width: size.width * 0.95,
+                        child: ElevatedButton(
+                          style: ButtonStyle(
+                            // padding: MaterialStateProperty.all(EdgeInsets.symmetric(horizontal: size.width * 0.36)),
+                            backgroundColor: MaterialStateProperty.all(Colors.green),
+                            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(26.0),
+                                // side: BorderSide(color: Colors.)
+                              ),
+                            ),
+                          ),
+                          onPressed: (){
+                            void cancelled() {
+                              FirebaseFirestore.instance
+                                  .collection('Orders')
+                                  .doc(orderNo)
+                                  .update({
+                                "status": "Order Cancelled"
+                              });
+                              setState(() {
+                                print(status);
+                                // getMyOrders();
+                              });
+                            }
+
+                            cancelled();
+                          },
+                          child: Text("Cancel Order",style: TextStyle(color: Colors.white,fontSize: 20),),
+                        ),
+                      ),
+                    )
                   ],
                 )
             ),

@@ -1,10 +1,10 @@
-import 'package:handicraft/addselleritems.dart';
-import 'package:handicraft/login.dart';
+import 'package:handicraft/seller_screen/addselleritems.dart';
+import 'package:handicraft/auth/login.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:animated_background/animated_background.dart';
-import 'package:handicraft/sellerhomewidgets.dart';
+import 'package:handicraft/seller_screen/sellerhomewidgets.dart';
 
 class SellerHome extends StatefulWidget {
   @override
