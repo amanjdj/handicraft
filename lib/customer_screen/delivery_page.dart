@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:handicraft/order_succesfull.dart';
-import 'package:handicraft/pages/customerhome.dart';
+import 'package:handicraft/customer_screen/customerhome.dart';
 import 'package:handicraft/sidebar/sidebar_layout.dart';
 import 'package:handicraft/splashScreen.dart';
 import 'package:http/http.dart' as http;

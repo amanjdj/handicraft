@@ -9,7 +9,7 @@ import 'package:handicraft/sidebar_navigation/navigation_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:rxdart/rxdart.dart';
 
-import '../login.dart';
+import '../auth/login.dart';
 import '../splashScreen.dart';
 
 class Sidebar extends StatefulWidget {
