@@ -72,13 +72,38 @@ class _OrdersArrivedState extends State<OrdersArrived> {
           onRefresh: fetchOrders,
           child: Column(
             children: [
-              Container(
-                child: Text("USER"),
+              Row(
+                children: [
+                  Expanded(
+                    child: Container(
+                      color: Colors.blueGrey,
+                      child: Center(
+                        child: Text(
+                          "ORDERS",
+                          style: GoogleFonts.koHo(
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 2,
+                              fontSize: 38,
+                              color: Colors.white38),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
               Expanded(
                 child: Container(
                   child: list.length == 0
-                      ? Text("No Orders")
+                      ? Center(
+                          child: Text(
+                            "NO ORDERS",
+                            style: GoogleFonts.koHo(
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: 2,
+                                fontSize: 38,
+                                color: Colors.black26),
+                          ),
+                        )
                       : ListView.builder(
                           itemCount: list.length,
                           itemBuilder: (_, index) {
@@ -139,7 +164,12 @@ class _OrdersArrivedState extends State<OrdersArrived> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  pincode,
+                  "Order id :" + id,
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.koHo(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 Row(
                   children: [
@@ -212,6 +242,14 @@ class _OrdersArrivedState extends State<OrdersArrived> {
                     ),
                     Text(
                       address,
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.koHo(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      pincode,
                       textAlign: TextAlign.center,
                       style: GoogleFonts.koHo(
                         fontSize: 20,
@@ -313,7 +351,7 @@ class _ItemModifyState extends State<ItemModify> {
             ClipPath(
               clipper: OvalBottomBorderClipper(),
               child: Container(
-                  color: Color(0xff2c98f0),
+                  color: Colors.blueGrey,
                   height: 50,
                   width: size.width,
                   child: Center(
@@ -447,6 +485,7 @@ class _ItemModifyState extends State<ItemModify> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   ElevatedButton(
+                    style: ElevatedButton.styleFrom(primary: Colors.black12),
                     onPressed: () {
                       void update() async {
                         await FirebaseFirestore.instance
@@ -464,6 +503,7 @@ class _ItemModifyState extends State<ItemModify> {
                     child: Text('Update'),
                   ),
                   ElevatedButton(
+                      style: ElevatedButton.styleFrom(primary: Colors.black12),
                       onPressed: () {
                         void markStockOut() async {
                           await FirebaseFirestore.instance

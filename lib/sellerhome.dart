@@ -21,8 +21,8 @@ class _SellerHomeState extends State<SellerHome> with TickerProviderStateMixin {
       // backgroundColor: Colors.white38,
       bottomNavigationBar: CurvedNavigationBar(
         backgroundColor: Colors.transparent,
-        buttonBackgroundColor: Color(0xff2c98f0),
-        color: Color(0xff2c98f0),
+        buttonBackgroundColor: Colors.blueGrey,
+        color: Colors.blueGrey,
         index: 0,
         items: <Widget>[
           Icon(
@@ -72,6 +72,7 @@ class _SellerHomeState extends State<SellerHome> with TickerProviderStateMixin {
         ),
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.blueGrey,
         child: Icon(Icons.add),
         onPressed: () {
           Navigator.push(context,
