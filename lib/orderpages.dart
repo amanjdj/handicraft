@@ -163,8 +163,8 @@ class _OrdersPagesState extends State<OrdersPages> {
                             //   width: size.width * 0.1,
                             // ),
                             Container(
-                              height: size.height * 0.35,
                               width: size.width * 0.5,
+                              height: size.width * 0.5,
                               decoration: BoxDecoration(
                                 // shape: BoxShape.circle,
                                 color: Colors.black,
