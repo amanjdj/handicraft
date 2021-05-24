@@ -72,13 +72,38 @@ class _OrdersArrivedState extends State<OrdersArrived> {
           onRefresh: fetchOrders,
           child: Column(
             children: [
-              Container(
-                child: Text("USER"),
+              Row(
+                children: [
+                  Expanded(
+                    child: Container(
+                      color: Color(0xff282C31),
+                      child: Center(
+                        child: Text(
+                          "ORDERS",
+                          style: GoogleFonts.koHo(
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 2,
+                              fontSize: 38,
+                              color: Colors.white38),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
               Expanded(
                 child: Container(
                   child: list.length == 0
-                      ? Text("No Orders")
+                      ? Center(
+                          child: Text(
+                            "NO ORDERS",
+                            style: GoogleFonts.koHo(
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: 2,
+                                fontSize: 38,
+                                color: Colors.black26),
+                          ),
+                        )
                       : ListView.builder(
                           itemCount: list.length,
                           itemBuilder: (_, index) {
@@ -121,13 +146,15 @@ class _OrdersArrivedState extends State<OrdersArrived> {
     print(pincode);
 
     return Container(
+      // color: Colors.black,
       margin: EdgeInsets.all(10),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
+          color: Color(0xff282C31),
           border: Border.all(color: Colors.black),
           boxShadow: [
             BoxShadow(
-              color: Colors.black26,
+              color: Colors.black12,
               blurRadius: 10.0,
               offset: Offset(0.0, 5.0),
             ),
@@ -138,8 +165,17 @@ class _OrdersArrivedState extends State<OrdersArrived> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text(
-                  pincode,
+                Padding(
+                  padding: EdgeInsets.all(5),
+                  child: Text(
+                    "Order id :" + id,
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.koHo(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
                 ),
                 Row(
                   children: [
@@ -163,6 +199,7 @@ class _OrdersArrivedState extends State<OrdersArrived> {
                           style: GoogleFonts.koHo(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
+                            color: Colors.white,
                           ),
                         ),
                         Row(
@@ -175,6 +212,7 @@ class _OrdersArrivedState extends State<OrdersArrived> {
                               style: GoogleFonts.koHo(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
+                                color: Colors.white,
                               ),
                             ),
                           ],
@@ -185,6 +223,7 @@ class _OrdersArrivedState extends State<OrdersArrived> {
                           style: GoogleFonts.koHo(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
+                            color: Colors.white,
                           ),
                         ),
                       ],
@@ -200,6 +239,7 @@ class _OrdersArrivedState extends State<OrdersArrived> {
                       style: GoogleFonts.koHo(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
+                        color: Colors.white,
                       ),
                     ),
                     Text(
@@ -208,6 +248,7 @@ class _OrdersArrivedState extends State<OrdersArrived> {
                       style: GoogleFonts.koHo(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
+                        color: Colors.white,
                       ),
                     ),
                     Text(
@@ -216,6 +257,16 @@ class _OrdersArrivedState extends State<OrdersArrived> {
                       style: GoogleFonts.koHo(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                    Text(
+                      pincode,
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.koHo(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
                       ),
                     ),
                     Text(
@@ -232,6 +283,7 @@ class _OrdersArrivedState extends State<OrdersArrived> {
                       style: GoogleFonts.koHo(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
+                        color: Colors.white,
                       ),
                     ),
                     Row(
@@ -307,13 +359,13 @@ class _ItemModifyState extends State<ItemModify> {
     Size size = MediaQuery.of(context).size;
     return SafeArea(
       child: Container(
-        color: Colors.white38,
+        color: Colors.black,
         child: Column(
           children: [
             ClipPath(
               clipper: OvalBottomBorderClipper(),
               child: Container(
-                  color: Color(0xff2c98f0),
+                  color: Color(0xff282C31),
                   height: 50,
                   width: size.width,
                   child: Center(
@@ -363,133 +415,452 @@ class _ItemModifyState extends State<ItemModify> {
     Size size = MediaQuery.of(context).size;
     final _price = TextEditingController();
     String desc = price;
-    return Card(
-      margin: EdgeInsets.only(top: 10.0, bottom: 10.0, left: 3.4, right: 3.4),
-      child: Padding(
-        padding: const EdgeInsets.all(5.0),
-        child: Container(
-          decoration: BoxDecoration(
-            color: Colors.teal.shade50,
-            borderRadius: BorderRadius.all(Radius.circular(20.0)),
+    return Container(
+      // color: Colors.black,
+      margin: EdgeInsets.all(10),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: Color(0xff282C31),
+          border: Border.all(color: Colors.black),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black12,
+              blurRadius: 10.0,
+              offset: Offset(0.0, 5.0),
+            ),
+          ]),
+      child: Column(
+        children: [
+          Container(
+            padding: EdgeInsets.all(10),
+            width: size.width * .7,
+            height: size.width * .6,
+            child: Image.network(
+              url,
+              fit: BoxFit.fill,
+            ),
           ),
-          child: Column(
+          // CachedNetworkImage(
+          //   imageUrl: url,
+          //   imageBuilder: (context, imageProvider) => Container(
+          //     height: size.height * 0.3,
+          //     width: size.width,
+          //     decoration: BoxDecoration(
+          //       image: DecorationImage(
+          //         image: imageProvider,
+          //         fit: BoxFit.cover,
+          //       ),
+          //     ),
+          //   ),
+          //   placeholder: (context, url) => CircularProgressIndicator(),
+          //   errorWidget: (context, url, error) => Icon(Icons.error),
+          // ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              CachedNetworkImage(
-                imageUrl: url,
-                imageBuilder: (context, imageProvider) => Container(
-                  height: size.height * 0.3,
-                  width: size.width,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: imageProvider,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
+              Text(
+                'Item:',
+                style: GoogleFonts.koHo(
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
                 ),
-                placeholder: (context, url) => CircularProgressIndicator(),
-                errorWidget: (context, url, error) => Icon(Icons.error),
               ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Item:',
-                    style: GoogleFonts.koHo(
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.cyan,
-                    ),
-                  ),
-                  Padding(padding: EdgeInsets.all(5.0)),
-                  Text(
-                    title,
-                    style: GoogleFonts.koHo(
-                      fontSize: 25,
-                      color: Colors.cyan,
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    "Price:",
-                    style: GoogleFonts.koHo(
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.cyan,
-                    ),
-                  ),
-                  Padding(padding: EdgeInsets.all(5.0)),
-                  Icon(
-                    FontAwesomeIcons.rupeeSign,
-                    size: 21.0,
-                    color: Colors.cyan,
-                  ),
-                  Text(
-                    price,
-                    style: GoogleFonts.koHo(
-                      fontSize: 25,
-                      color: Colors.cyan,
-                    ),
-                  ),
-                ],
-              ),
-              TextFormField(
-                decoration: InputDecoration(hintText: "Updated Price"),
-                controller: _price,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      void update() async {
-                        await FirebaseFirestore.instance
-                            .collection("Items")
-                            .doc(id)
-                            .update({"price": _price.text.trim()}).then(
-                                (value) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text("Price Updated")));
-                        });
-                      }
-
-                      update();
-                    },
-                    child: Text('Update'),
-                  ),
-                  ElevatedButton(
-                      onPressed: () {
-                        void markStockOut() async {
-                          await FirebaseFirestore.instance
-                              .collection("Items")
-                              .doc(id)
-                              .update({"available": "stockout"});
-                        }
-
-                        void markStockin() async {
-                          await FirebaseFirestore.instance
-                              .collection("Items")
-                              .doc(id)
-                              .update({"available": "instock"});
-                        }
-
-                        status == "instock" ? markStockOut() : markStockin();
-                      },
-                      child: Text(status == "instock"
-                          ? "Mark out of stock"
-                          : "Mark stock available")),
-                ],
+              Padding(padding: EdgeInsets.all(5.0)),
+              Text(
+                title,
+                style: GoogleFonts.koHo(
+                  fontSize: 25,
+                  color: Colors.white,
+                ),
               ),
             ],
           ),
-        ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                "Price:",
+                style: GoogleFonts.koHo(
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+              Padding(padding: EdgeInsets.all(5.0)),
+              Icon(
+                FontAwesomeIcons.rupeeSign,
+                size: 21.0,
+                color: Colors.white,
+              ),
+              Text(
+                price,
+                style: GoogleFonts.koHo(
+                  fontSize: 25,
+                  color: Colors.white,
+                ),
+              ),
+            ],
+          ),
+          TextFormField(
+            style: TextStyle(color: Colors.white),
+            decoration: InputDecoration(
+              hintText: "Updated Price",
+              hintStyle: TextStyle(color: Colors.white70),
+              contentPadding: EdgeInsets.only(left: 5),
+            ),
+            controller: _price,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(primary: Colors.black12),
+                onPressed: () {
+                  void update() async {
+                    await FirebaseFirestore.instance
+                        .collection("Items")
+                        .doc(id)
+                        .update({"price": _price.text.trim()}).then((value) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text("Price Updated")));
+                    });
+                  }
+
+                  update();
+                },
+                child: Text('Update'),
+              ),
+              ElevatedButton(
+                  style: ElevatedButton.styleFrom(primary: Colors.black12),
+                  onPressed: () {
+                    void markStockOut() async {
+                      await FirebaseFirestore.instance
+                          .collection("Items")
+                          .doc(id)
+                          .update({"available": "stockout"});
+                    }
+
+                    void markStockin() async {
+                      await FirebaseFirestore.instance
+                          .collection("Items")
+                          .doc(id)
+                          .update({"available": "instock"});
+                    }
+
+                    status == "instock" ? markStockOut() : markStockin();
+                  },
+                  child: Text(status == "instock"
+                      ? "Mark out of stock"
+                      : "Mark stock available")),
+            ],
+          ),
+        ],
       ),
+      // child: Column(
+      //   children: [
+      //     Container(
+      //       child: Column(
+      //         crossAxisAlignment: CrossAxisAlignment.start,
+      //         children: <Widget>[
+      //           Padding(
+      //             padding: EdgeInsets.all(5),
+      //             child: Text(
+      //               "Order id :" + id,
+      //               textAlign: TextAlign.center,
+      //               style: GoogleFonts.koHo(
+      //                 fontSize: 20,
+      //                 fontWeight: FontWeight.bold,
+      //                 color: Colors.white,
+      //               ),
+      //             ),
+      //           ),
+      //           Row(
+      //             children: [
+      //               Container(
+      //                 padding: EdgeInsets.all(10),
+      //                 width: size.width * .5,
+      //                 height: size.width * .5,
+      //                 child: Image.network(
+      //                   imageurl,
+      //                   fit: BoxFit.cover,
+      //                 ),
+      //               ),
+      //               SizedBox(
+      //                 width: 20,
+      //               ),
+      //               Column(
+      //                 children: [
+      //                   Text(
+      //                     title,
+      //                     textAlign: TextAlign.center,
+      //                     style: GoogleFonts.koHo(
+      //                       fontSize: 20,
+      //                       fontWeight: FontWeight.bold,
+      //                       color: Colors.white,
+      //                     ),
+      //                   ),
+      //                   Row(
+      //                     children: [
+      //                       Icon(FontAwesomeIcons.rupeeSign,
+      //                           color: Colors.teal, size: 18),
+      //                       Text(
+      //                         price,
+      //                         textAlign: TextAlign.center,
+      //                         style: GoogleFonts.koHo(
+      //                           fontSize: 20,
+      //                           fontWeight: FontWeight.bold,
+      //                           color: Colors.white,
+      //                         ),
+      //                       ),
+      //                     ],
+      //                   ),
+      //                   Text(
+      //                     title,
+      //                     textAlign: TextAlign.center,
+      //                     style: GoogleFonts.koHo(
+      //                       fontSize: 20,
+      //                       fontWeight: FontWeight.bold,
+      //                       color: Colors.white,
+      //                     ),
+      //                   ),
+      //                 ],
+      //               ),
+      //             ],
+      //           ),
+      //           ExpandChild(
+      //               child: Column(
+      //                 children: [
+      //                   Text(
+      //                     name,
+      //                     textAlign: TextAlign.center,
+      //                     style: GoogleFonts.koHo(
+      //                       fontSize: 20,
+      //                       fontWeight: FontWeight.bold,
+      //                       color: Colors.white,
+      //                     ),
+      //                   ),
+      //                   Text(
+      //                     phone,
+      //                     textAlign: TextAlign.center,
+      //                     style: GoogleFonts.koHo(
+      //                       fontSize: 20,
+      //                       fontWeight: FontWeight.bold,
+      //                       color: Colors.white,
+      //                     ),
+      //                   ),
+      //                   Text(
+      //                     address,
+      //                     textAlign: TextAlign.center,
+      //                     style: GoogleFonts.koHo(
+      //                       fontSize: 20,
+      //                       fontWeight: FontWeight.bold,
+      //                       color: Colors.white,
+      //                     ),
+      //                   ),
+      //                   Text(
+      //                     pincode,
+      //                     textAlign: TextAlign.center,
+      //                     style: GoogleFonts.koHo(
+      //                       fontSize: 20,
+      //                       fontWeight: FontWeight.bold,
+      //                       color: Colors.white,
+      //                     ),
+      //                   ),
+      //                   Text(
+      //                     date.toDate().day.toString() +
+      //                         "/" +
+      //                         date.toDate().month.toString() +
+      //                         "/" +
+      //                         date.toDate().year.toString() +
+      //                         '    ' +
+      //                         date.toDate().toLocal().hour.toString() +
+      //                         ':' +
+      //                         date.toDate().minute.toString(),
+      //                     textAlign: TextAlign.center,
+      //                     style: GoogleFonts.koHo(
+      //                       fontSize: 20,
+      //                       fontWeight: FontWeight.bold,
+      //                       color: Colors.white,
+      //                     ),
+      //                   ),
+      //                   Row(
+      //                     children: [
+      //                       ElevatedButton(
+      //                           onPressed: () {
+      //                             void shipped() {
+      //                               FirebaseFirestore.instance
+      //                                   .collection('Orders')
+      //                                   .doc(id)
+      //                                   .update({"status": "Order Shipped"});
+      //                             }
+      //
+      //                             shipped();
+      //                           },
+      //                           style: ElevatedButton.styleFrom(
+      //                               primary: Colors.black54),
+      //                           child: Text("Order Shipped")),
+      //                       ElevatedButton(
+      //                           onPressed: () {
+      //                             void cancelled() {
+      //                               FirebaseFirestore.instance
+      //                                   .collection('Orders')
+      //                                   .doc(id)
+      //                                   .update({
+      //                                 "status": "Order Cancelled by Seller"
+      //                               });
+      //                             }
+      //
+      //                             cancelled();
+      //                           },
+      //                           style: ElevatedButton.styleFrom(
+      //                             primary: Colors.black54,
+      //                           ),
+      //                           child: Text("Cancel Order")),
+      //                     ],
+      //                     crossAxisAlignment: CrossAxisAlignment.center,
+      //                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      //                   )
+      //                 ],
+      //               ))
+      //         ],
+      //       ),
+      //     ),
+      //   ],
+      // ),
     );
+    // return Card(
+    //   margin: EdgeInsets.only(top: 10.0, bottom: 10.0, left: 3.4, right: 3.4),
+    //   child: Padding(
+    //     padding: const EdgeInsets.all(5.0),
+    //     child: Container(
+    //       decoration: BoxDecoration(
+    //         color: Color(0xff282C31),
+    //         borderRadius: BorderRadius.all(Radius.circular(20.0)),
+    //       ),
+    //       child: Column(
+    //         children: [
+    //           CachedNetworkImage(
+    //             imageUrl: url,
+    //             imageBuilder: (context, imageProvider) => Container(
+    //               height: size.height * 0.3,
+    //               width: size.width,
+    //               decoration: BoxDecoration(
+    //                 image: DecorationImage(
+    //                   image: imageProvider,
+    //                   fit: BoxFit.cover,
+    //                 ),
+    //               ),
+    //             ),
+    //             placeholder: (context, url) => CircularProgressIndicator(),
+    //             errorWidget: (context, url, error) => Icon(Icons.error),
+    //           ),
+    //           Row(
+    //             crossAxisAlignment: CrossAxisAlignment.center,
+    //             mainAxisAlignment: MainAxisAlignment.center,
+    //             children: [
+    //               Text(
+    //                 'Item:',
+    //                 style: GoogleFonts.koHo(
+    //                   fontSize: 25,
+    //                   fontWeight: FontWeight.bold,
+    //                   color: Colors.cyan,
+    //                 ),
+    //               ),
+    //               Padding(padding: EdgeInsets.all(5.0)),
+    //               Text(
+    //                 title,
+    //                 style: GoogleFonts.koHo(
+    //                   fontSize: 25,
+    //                   color: Colors.cyan,
+    //                 ),
+    //               ),
+    //             ],
+    //           ),
+    //           Row(
+    //             mainAxisAlignment: MainAxisAlignment.center,
+    //             crossAxisAlignment: CrossAxisAlignment.center,
+    //             children: [
+    //               Text(
+    //                 "Price:",
+    //                 style: GoogleFonts.koHo(
+    //                   fontSize: 25,
+    //                   fontWeight: FontWeight.bold,
+    //                   color: Colors.cyan,
+    //                 ),
+    //               ),
+    //               Padding(padding: EdgeInsets.all(5.0)),
+    //               Icon(
+    //                 FontAwesomeIcons.rupeeSign,
+    //                 size: 21.0,
+    //                 color: Colors.cyan,
+    //               ),
+    //               Text(
+    //                 price,
+    //                 style: GoogleFonts.koHo(
+    //                   fontSize: 25,
+    //                   color: Colors.cyan,
+    //                 ),
+    //               ),
+    //             ],
+    //           ),
+    //           TextFormField(
+    //             decoration: InputDecoration(hintText: "Updated Price"),
+    //             controller: _price,
+    //           ),
+    //           Row(
+    //             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    //             crossAxisAlignment: CrossAxisAlignment.center,
+    //             children: [
+    //               ElevatedButton(
+    //                 style: ElevatedButton.styleFrom(primary: Colors.black12),
+    //                 onPressed: () {
+    //                   void update() async {
+    //                     await FirebaseFirestore.instance
+    //                         .collection("Items")
+    //                         .doc(id)
+    //                         .update({"price": _price.text.trim()}).then(
+    //                             (value) {
+    //                       ScaffoldMessenger.of(context).showSnackBar(
+    //                           SnackBar(content: Text("Price Updated")));
+    //                     });
+    //                   }
+    //
+    //                   update();
+    //                 },
+    //                 child: Text('Update'),
+    //               ),
+    //               ElevatedButton(
+    //                   style: ElevatedButton.styleFrom(primary: Colors.black12),
+    //                   onPressed: () {
+    //                     void markStockOut() async {
+    //                       await FirebaseFirestore.instance
+    //                           .collection("Items")
+    //                           .doc(id)
+    //                           .update({"available": "stockout"});
+    //                     }
+    //
+    //                     void markStockin() async {
+    //                       await FirebaseFirestore.instance
+    //                           .collection("Items")
+    //                           .doc(id)
+    //                           .update({"available": "instock"});
+    //                     }
+    //
+    //                     status == "instock" ? markStockOut() : markStockin();
+    //                   },
+    //                   child: Text(status == "instock"
+    //                       ? "Mark out of stock"
+    //                       : "Mark stock available")),
+    //             ],
+    //           ),
+    //         ],
+    //       ),
+    //     ),
+    //   ),
+    // );
   }
 }
