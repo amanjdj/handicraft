@@ -101,7 +101,7 @@ class _SidebarState extends State<Sidebar> with SingleTickerProviderStateMixin<S
                       padding: EdgeInsets.symmetric(horizontal: 20),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.only(bottomRight: Radius.circular(0),topRight: Radius.circular(0)),
-                        color: Color(0xff2c98f0),
+                        color: Color(0xff282C31),
                       ),
                       child: Column(
                         children: [
@@ -192,7 +192,7 @@ class _SidebarState extends State<Sidebar> with SingleTickerProviderStateMixin<S
                     child: Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.only(bottomRight: Radius.circular(30),topRight: Radius.circular(30)),
-                        color: Color(0xff2c98f0),
+                        color: Color(0xff282C31),
                       ),
                       width: 30,
                       height: 55,

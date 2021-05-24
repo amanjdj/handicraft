@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:handicraft/customer_screen/customerCart.dart';
 import 'package:handicraft/data/data.dart';
 import 'package:handicraft/auth/login.dart';
@@ -36,150 +37,150 @@ class _CustomerHomeState extends State<CustomerHome> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Column(
-      children: [
-        Container(
-          height: size.height * 0.2,
-          decoration: BoxDecoration(
-            color: Color(0xff44a7c4),
-            borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(36),
-                bottomRight: Radius.circular(36)),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey,
-                offset: Offset(0.0, 5),
-                blurRadius: 6.0,
-              ),
-            ],
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Text(
-                "Welcome !..",
-                style: Theme.of(context)
-                    .textTheme
-                    .headline4
-                    .copyWith(color: Colors.white, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(
-                width: 10,
-              ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      CupertinoPageRoute(
-                          builder: (context) => CustomerCart(
-                                cartCount: cartList,
-                              )));
-                },
-                child: Container(
-                  margin: EdgeInsets.all(5),
-                  height: 30,
-                  width: 80,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(color: Colors.white, width: 2)),
-                  child: Center(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        StreamBuilder(
-                          stream: FirebaseFirestore.instance
-                              .collection("users")
-                              .where("email",
-                                  isEqualTo:
-                                      App.sharedPreferences.getString("email"))
-                              .snapshots(),
-                          builder: (context,
-                              AsyncSnapshot<QuerySnapshot> streamSnapshot) {
-                            void getCart() async {
-                              if (streamSnapshot.hasData) {
-                                cartList = List.from(
-                                    streamSnapshot.data.docs[0]['cart']);
+    return Scaffold(
+      backgroundColor: Colors.black87,
+      body: Column(
+        children: [
+          Container(
+            height: size.height * 0.2,
+            decoration: BoxDecoration(
+              color: Color(0xff282C31),
+              borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(36),
+                  bottomRight: Radius.circular(36)),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black,
+                  offset: Offset(0.0, 5),
+                  blurRadius: 6.0,
+                ),
+              ],
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Text(
+                  "Welcome !..",
+                    style: GoogleFonts.koHo(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 40)
+                ),
+                SizedBox(
+                  width: 30,
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        CupertinoPageRoute(
+                            builder: (context) => CustomerCart(
+                                  cartCount: cartList,
+                                )));
+                  },
+                  child: Container(
+                    margin: EdgeInsets.all(5),
+                    height: 30,
+                    width: 70,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(color: Colors.white, width: 2)),
+                    child: Center(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          StreamBuilder(
+                            stream: FirebaseFirestore.instance
+                                .collection("users")
+                                .where("email",
+                                    isEqualTo:
+                                        App.sharedPreferences.getString("email"))
+                                .snapshots(),
+                            builder: (context,
+                                AsyncSnapshot<QuerySnapshot> streamSnapshot) {
+                              void getCart() async {
+                                if (streamSnapshot.hasData) {
+                                  cartList = List.from(
+                                      streamSnapshot.data.docs[0]['cart']);
+                                }
                               }
-                            }
 
-                            getCart();
-                            return !streamSnapshot.hasData
-                                ? CircularProgressIndicator()
-                                : Text(
-                                    cartList.length.toString(),
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 20),
-                                  );
-                          },
-                        ),
-                        // cartLength==null?LinearProgressIndicator():Text(cartLength,style: TextStyle(color: Colors.white,fontSize: 20),),
-                        Icon(
-                          Icons.shopping_cart,
-                          color: Colors.white,
-                        )
-                      ],
+                              getCart();
+                              return !streamSnapshot.hasData
+                                  ? CircularProgressIndicator()
+                                  : Text(
+                                      cartList.length.toString(),
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 20),
+                                    );
+                            },
+                          ),
+                          // cartLength==null?LinearProgressIndicator():Text(cartLength,style: TextStyle(color: Colors.white,fontSize: 20),),
+                          Icon(
+                            Icons.shopping_cart,
+                            color: Colors.white,
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-        Container(
-          margin: EdgeInsets.only(
-            top: 25,
-            bottom: 25,
-          ),
-          height: 24,
-          child: Stack(
-            children: [
-              Text(
-                "Featured Products",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-              ),
-              Positioned(
-                right: 0,
-                left: 0,
-                bottom: 0,
-                child: Container(
-                  height: 7,
-                  color: Color(0xff44a7c4).withOpacity(0.3),
+          Container(
+            margin: EdgeInsets.only(
+              top: 25,
+              bottom: 25,
+            ),
+            height: 24,
+            child: Stack(
+              children: [
+                Text(
+                  "Featured Products",
+                    style: GoogleFonts.koHo(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 20)
                 ),
-              )
-            ],
+                Positioned(
+                  right: 0,
+                  left: 0,
+                  bottom: 0,
+                  child: Container(
+                    height: 7,
+                    color: Color(0xff282C31).withOpacity(0.3),
+                  ),
+                )
+              ],
+            ),
           ),
-        ),
-        Expanded(
-            child: StreamBuilder(
-          stream: FirebaseFirestore.instance.collection("Items").snapshots(),
-          builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
-            return !streamSnapshot.hasData
-                ? Center(child: CircularProgressIndicator())
-                : ListView.builder(
-                    itemCount: streamSnapshot.data.docs.length,
-                    itemBuilder: (_, index) {
-                      return FeaturedProductss(
-                          streamSnapshot.data.docs[index]['imageURL'],
-                          streamSnapshot.data.docs[index]['title'],
-                          streamSnapshot.data.docs[index]['price'], () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => (OrdersPages(
-                                    streamSnapshot.data.docs[index]['imageURL'],
-                                    streamSnapshot.data.docs[index]['title'],
-                                    streamSnapshot.data.docs[index]['price'],
-                                    streamSnapshot.data.docs[index]['desc'],
-                                    streamSnapshot.data.docs[index].id,
-                                    streamSnapshot.data.docs[index]['seller'],
-                                    cartList))));
-                      });
-                    },
-                  );
-          },
-        ),
-        )
-      ],
+          Expanded(
+              child: StreamBuilder(
+            stream: FirebaseFirestore.instance.collection("Items").snapshots(),
+            builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
+              return !streamSnapshot.hasData
+                  ? Center(child: CircularProgressIndicator())
+                  : ListView.builder(
+                      itemCount: streamSnapshot.data.docs.length,
+                      itemBuilder: (_, index) {
+                        return FeaturedProductss(
+                            streamSnapshot.data.docs[index]['imageURL'],
+                            streamSnapshot.data.docs[index]['title'],
+                            streamSnapshot.data.docs[index]['price'], () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => (OrdersPages(
+                                      streamSnapshot.data.docs[index]['imageURL'],
+                                      streamSnapshot.data.docs[index]['title'],
+                                      streamSnapshot.data.docs[index]['price'],
+                                      streamSnapshot.data.docs[index]['desc'],
+                                      streamSnapshot.data.docs[index].id,
+                                      streamSnapshot.data.docs[index]['seller'],
+                                      cartList))));
+                        });
+                      },
+                    );
+            },
+          ),
+          )
+        ],
+      ),
     );
   }
 
@@ -207,10 +208,10 @@ class _CustomerHomeState extends State<CustomerHome> {
                   bottomLeft: Radius.circular(10),
                   bottomRight: Radius.circular(10),
                 ),
-                color: Colors.white,
+                color: Color(0xff282C31),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.grey,
+                    color: Colors.black,
                     offset: Offset(0.0, 5),
                     blurRadius: 6.0,
                   ),
@@ -220,18 +221,12 @@ class _CustomerHomeState extends State<CustomerHome> {
                 children: [
                   Text(
                     title,
-                    style: TextStyle(
-                        color: Colors.black.withOpacity(0.5),
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold),
+                      style: GoogleFonts.koHo(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 18)
                   ),
                   Spacer(),
                   Text(
                     "₹ " + price,
-                    style: TextStyle(
-                        color: Color(0xff44a7c4),
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold),
+                      style: GoogleFonts.koHo(color: Colors.grey,fontWeight: FontWeight.bold,fontSize: 18)
                   ),
                 ],
               ),

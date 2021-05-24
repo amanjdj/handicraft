@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expand_widget/expand_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:handicraft/sidebar_navigation/navigation_bloc.dart';
 import 'package:handicraft/splashScreen.dart';
 
@@ -38,33 +39,46 @@ class _OrdersPageState extends State<OrdersPage> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: Color(0xff44a7c4),
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Color(0xff44a7c4),
-      ),
+      backgroundColor: Colors.black87,
+      // appBar: AppBar(
+      //   elevation: 0,
+      //   backgroundColor: Colors.black,
+      // ),
       body: RefreshIndicator(
         onRefresh: getMyOrders,
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.only(right: 20),
+              padding: const EdgeInsets.only(right: 20,top: 40),
               child: Align(
-                alignment: Alignment(1,-1),
-                child: Text("My Orders",
-                  style: Theme.of(context).textTheme.headline3.copyWith(
-                      color: Colors.white, fontWeight: FontWeight.bold),
+                alignment: Alignment(0.22,-1),
+                child: Container(
+                  padding: EdgeInsets.only(left: 50,right: 50,top: 10,bottom: 10),
+                  decoration: BoxDecoration(
+                    color: Color(0xff282C31),
+                    borderRadius: BorderRadius.all(Radius.circular(36)),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black,
+                        offset: Offset(0.0, 5),
+                        blurRadius: 6.0,
+                      ),
+                    ],
+                  ),
+                  child: Text("My Orders",
+                    style: GoogleFonts.koHo(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 40)
+                  ),
                 ),
               ),
             ),
-            Align(
-              alignment: Alignment(1,-9),
-              child: Container(
-                width: size.width * 0.65,
-                height: 5,
-                color: Colors.lightGreenAccent,
-              ),
-            ),
+            // Align(
+            //   alignment: Alignment(1,-9),
+            //   child: Container(
+            //     width: size.width * 0.5,
+            //     height: 5,
+            //     color: Colors.lightGreenAccent,
+            //   ),
+            // ),
             Expanded(
                 child:list.length==0?
                 Center(child: Text("No Orders")):ListView.builder(itemCount: list.length,
@@ -87,7 +101,7 @@ class _OrdersPageState extends State<OrdersPage> {
         // height: size.height * 0.37,
         width: size.width * 0.95,
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Color(0xff282C31),
           borderRadius: BorderRadius.all(Radius.circular(10)),
           boxShadow: [
             BoxShadow(
@@ -106,13 +120,13 @@ class _OrdersPageState extends State<OrdersPage> {
                 Padding(
                   padding: const EdgeInsets.only(left: 8,top: 8),
                   child: Text("Order No: " + orderNo,
-                      style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black)
+                      style: TextStyle(fontWeight: FontWeight.bold,color: Colors.white)
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(right: 8,top: 8),
                   child: Text(date.toDate().day.toString() + ":" + date.toDate().month.toString() + ":" + date.toDate().year.toString(),
-                    style: TextStyle(fontSize: 15),
+                    style: TextStyle(fontSize: 15,color: Colors.white),
                   ),
                 )
               ],
@@ -132,7 +146,7 @@ class _OrdersPageState extends State<OrdersPage> {
                   padding: const EdgeInsets.only(top: 15),
                   child: Text(itemId,
                     style: TextStyle(fontSize: 18,
-                        color: Colors.black,
+                        color: Colors.white,
                         fontWeight: FontWeight.bold),
                   ),
                 )
@@ -150,7 +164,7 @@ class _OrdersPageState extends State<OrdersPage> {
                   padding: const EdgeInsets.only(right: 8),
                   child: Text("₹ " + price,
                     style: TextStyle(fontSize: 18,
-                        color: Colors.black,
+                        color: Colors.white,
                         fontWeight: FontWeight.bold),
                   ),
                 ),
@@ -160,10 +174,11 @@ class _OrdersPageState extends State<OrdersPage> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(left: 8),
+                  padding: const EdgeInsets.only(left: 8,bottom: 5),
                   child: Text(status,
                     style: Theme.of(context).textTheme.headline6.copyWith(
-                        color: Colors.green,
+                        color: status == "Order Cancelled"? Color(0xffBF0000): Colors.green,
+                        letterSpacing: 1.5,
                         fontWeight: FontWeight.bold),
                   ),
                 ),
@@ -208,17 +223,17 @@ class _OrdersPageState extends State<OrdersPage> {
                     Padding(
                       padding: const EdgeInsets.only(left: 15),
                       child: Text(id,
-                          style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black,fontSize: 18)
+                          style: TextStyle(fontWeight: FontWeight.bold,color: Colors.white,fontSize: 18)
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(left: 15),
                       child: Text(no,
-                          style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black,fontSize: 18)
+                          style: TextStyle(fontWeight: FontWeight.bold,color: Colors.white,fontSize: 18)
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(left: 15,right: 15,bottom: 5),
+                      padding: const EdgeInsets.only(left: 15,right: 15,bottom: 5,top: 5),
                       child: SizedBox(
                         height: 50,
                         width: size.width * 0.95,
